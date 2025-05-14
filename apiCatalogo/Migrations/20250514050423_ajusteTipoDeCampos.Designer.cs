@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using apiCatalogo.Context;
 
@@ -11,9 +12,11 @@ using apiCatalogo.Context;
 namespace apiCatalogo.Migrations
 {
     [DbContext(typeof(ApiCatalogoDbContext))]
-    partial class ApiCatalogoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250514050423_ajusteTipoDeCampos")]
+    partial class ajusteTipoDeCampos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

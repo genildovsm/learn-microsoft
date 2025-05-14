@@ -23,8 +23,7 @@ public class Produto
     [Required]
     [StringLength(300)]
     public string? ImagemUrl { get; set; }
-    
-    [Display(Name = "Quantidade em estoque")]
+   
     [Range(0, float.MaxValue)]
     public float Estoque { get; set; }
     
