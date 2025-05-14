@@ -43,3 +43,5 @@ remove-migration [nome]
 # Gera o banco de dados e as tabelas com base no script
 database-update
 ~~~
+
++ [Data Annotations para sobreescrever as convenções do EF Core](Documentacao/convencoes-do-entity-framework-core.md)

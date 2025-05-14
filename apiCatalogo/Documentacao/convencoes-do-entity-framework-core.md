@@ -9,4 +9,8 @@
 + StringLength - Define o tamanho mínimo e máximo permitido para o tipo
 + Required - Especifica que o valor do campo é obrigatório (not null)
 
+[Material de apoio para consulta](https://www.learnentityframeworkcore.com/configuration/data-annotation-attributes)
+
+---
+
 [Retornar ao inicio](../README.md)
