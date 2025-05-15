@@ -1,33 +1,19 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace apiCatalogo.Models;
 
 public class Produto
 {
-    [Key]
-    public int ProdutoId { get; set; }
+    public int Id { get; set; }
 
-    [Required]
-    [StringLength(80)]
     public string? Nome { get; set; }
 
-    [Required]
-    [StringLength(255)]
     public string? Descricao { get; set; }
 
-    [Required]
-    [Column(TypeName = "decimal(10,2)")]
-    public decimal Preco {get; set; }
+    public decimal Valor {get; set; }
 
-    [Required]
-    [StringLength(300)]
     public string? ImagemUrl { get; set; }
-   
-    [Range(0, float.MaxValue)]
-    public float Estoque { get; set; }
-    
-    [DataType(DataType.DateTime)]
+
+    public int QuantidadeEstoque { get; set; }
+ 
     public DateTime DataCadastro {get; set; }
     
     public int CategoriaId { get; set; }

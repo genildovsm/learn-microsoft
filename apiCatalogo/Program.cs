@@ -9,9 +9,11 @@ builder.Services.AddSwaggerGen();
 
 string? mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ApiCatalogoDbContext>(options => 
-    options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection))
-);
+builder.Services.AddDbContext<ApiCatalogoDbContext>(options => {
+    options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
+});
 
 var app = builder.Build();
 
