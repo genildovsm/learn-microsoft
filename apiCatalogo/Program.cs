@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string? mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+string mySqlConnection = builder.Configuration["DefaultConnection"]!;
 
 builder.Services.AddDbContext<ApiCatalogoDbContext>(options => {
     options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));

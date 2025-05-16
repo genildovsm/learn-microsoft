@@ -47,15 +47,18 @@ public class ProdutoMapping : IEntityTypeConfiguration<Produto>
         .HasColumnType("int")
         .IsRequired();
 
-        b.HasIndex(x => x.Nome, "IX_PRODUTOS_NOME")
+        b.HasIndex(x => x.Nome, "ix_produtos_nome")
         .HasFilter("[nome] IS NOT NULL");  
+
+        b.HasIndex(x => x.Descricao, "ix_produtos_descricao")
+        .HasFilter("[nome] IS NOT NULL"); 
 
         #region Foreigh Keys
 
         b.HasOne(x => x.Categoria)
         .WithMany(x => x.Produtos)
         .HasForeignKey(x => x.CategoriaId)
-        .HasConstraintName("FK_Categorias_CategoriasId");
+        .HasConstraintName("fk_categorias_categoriasId");
 
         #endregion      
 

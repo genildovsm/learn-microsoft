@@ -22,7 +22,7 @@ public class CategoriaMapping : IEntityTypeConfiguration<Categoria>
         .HasColumnType("varchar")
         .HasMaxLength(255);
 
-        b.HasIndex(x => x.Nome, "IX_CATEGORIAS_NOME")
+        b.HasIndex(x => x.Nome, "ix_categorias_nome")
         .HasFilter("[nome] IS NOT NULL");
 
         b.HasData(
