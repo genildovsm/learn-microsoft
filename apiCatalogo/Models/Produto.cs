@@ -1,27 +1,31 @@
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace apiCatalogo.Models;
 
+/// <summary>
+/// Entidade Produto
+/// </summary>
 public class Produto
 {
-    public int Id { get; private set; }
-   
-    public string Nome { get; private set; } = string.Empty;
+    public int Id { get; set; }
 
-    public string Descricao { get; private set; }= string.Empty;
+    public string Nome { get; set; } = string.Empty;
 
-    public decimal Valor { get; private set; }
+    public string Descricao { get; set; } = string.Empty;
 
-    public string ImagemUrl { get; private set; } = string.Empty;
+    public decimal Valor { get; set; }
 
-    public int QuantidadeEstoque { get; private set; }
+    public string ImagemUrl { get; set; } = string.Empty;
 
-    public DateTime DataCadastro { get; private set; }
+    public int QuantidadeEstoque { get; set; }
 
-    public int CategoriaId { get; private set; }
+    public DateTime DataCadastro { get; set; }
+
+    public int CategoriaId { get; set; }
 
     [JsonIgnore]
-    public Categoria? Categoria { get; private set; }
+    [NotMapped]
+    public Categoria? Categoria { get; set; }
 
 }
