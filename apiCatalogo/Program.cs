@@ -1,11 +1,21 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using apiCatalogo.Context;
+using apiCatalogo.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+#region Tratamento da referência cíclica na serialização de objetos
+
+builder.Services.AddControllers()
+    .AddJsonOptions(
+        o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+    );
+
+#endregion
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -32,7 +42,8 @@ builder.Services.AddSwaggerGen(c =>
 
 string mySqlConnection = builder.Configuration["DefaultConnection"]!;
 
-builder.Services.AddDbContext<ApiCatalogoDbContext>(options => {
+builder.Services.AddDbContext<ApiCatalogoDbContext>(options =>
+{
     options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
     options.EnableSensitiveDataLogging();
     options.EnableDetailedErrors();
@@ -49,6 +60,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.MapControllers();
 
