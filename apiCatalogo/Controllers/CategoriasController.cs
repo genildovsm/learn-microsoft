@@ -31,7 +31,7 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetCategoriasProdutos()
     {
-        IEnumerable categorias = await _context.Categorias
+        IEnumerable<Categoria> categorias = await _context.Categorias
             .AsNoTracking()
             .Include(c => c.Produtos)
             .ToListAsync();
@@ -48,7 +48,7 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// <response code="404">Categoria não encontrada</response>
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(int id)
     {
         Categoria? categoria = await _context.Categorias
@@ -67,7 +67,10 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// <param name="model">Modelo de entrada para categoria</param>
     /// <returns>Retorna a categoria adicionada</returns>
     /// <response code="400">Categoria não informada</response>
+    /// <response code="201">Categoria cadastrada</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Categoria),StatusCodes.Status201Created)]
     public async Task<IActionResult> Post(CategoriaInputModel model)
     {
         Categoria categoria = model;
@@ -87,6 +90,8 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// <response code="400">Categoria não informada</response>
     /// <response code="200">Categoria atualizada</response>
     [HttpPut("{id:int:min(1)}")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     public async Task<IActionResult> Put(int id, CategoriaInputModel model)
     {
         Categoria categoria = model;
@@ -94,6 +99,8 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
 
         _context.Entry(categoria).State = EntityState.Modified;
         await _context.SaveChangesAsync();
+
+        _context.Entry(categoria).State = EntityState.Detached;
 
         return Ok(categoria);
     }
@@ -106,6 +113,8 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// <response code="204">Retorna a categoria excluída</response>
     /// <response code="404">Categoria não localizada</response>
     [HttpDelete("{id:int:min(1)}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Delete(int id)
     {
         var categoria = await _context.Categorias
