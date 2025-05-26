@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using apiCatalogo.Context;
+using apiCatalogo.Extensions;
 using apiCatalogo.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -55,6 +56,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Middleware customizado
+    app.ConfigureExceptionHandler();
 }
 
 app.UseHttpsRedirection();
