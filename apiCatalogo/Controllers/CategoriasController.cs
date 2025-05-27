@@ -1,6 +1,7 @@
 using apiCatalogo.Context;
 using apiCatalogo.DTOs.Inputs;
 using apiCatalogo.DTOs.Views;
+using apiCatalogo.Filters;
 using apiCatalogo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,7 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ServiceFilter(typeof(ApiLoggingFilter))]
     public async Task<IActionResult> Get(int id)
     {
         Categoria? categoria = await _context.Categorias

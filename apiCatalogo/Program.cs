@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using apiCatalogo.Context;
 using apiCatalogo.Extensions;
+using apiCatalogo.Filters;
 using apiCatalogo.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -49,6 +50,8 @@ builder.Services.AddDbContext<ApiCatalogoDbContext>(options =>
     options.EnableSensitiveDataLogging();
     options.EnableDetailedErrors();
 });
+
+builder.Services.AddScoped<ApiLoggingFilter>();
 
 var app = builder.Build();
 
