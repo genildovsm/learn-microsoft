@@ -20,7 +20,6 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     /// Retorna uma lista de produtos
     /// </summary>
     /// <param name="model">Modelo de entrada da consulta</param>
-    /// <returns></returns>
     /// <response code="200">A consulta retornou resultado</response>
     /// <response code="204">Consulta realizada com sucesso mas não retornou resultado</response>
     [HttpGet]
@@ -42,7 +41,6 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     /// Retorna um produto
     /// </summary>
     /// <param name="id">Identificador do produto</param>
-    /// <returns></returns>
     /// <response code="200">A consulta retornou resultado</response>
     /// <response code="204">Consulta realizada com sucesso mas não retornou resultado</response>
     [HttpGet("{id:int}", Name = "ObterProdutoPorId")]
@@ -62,7 +60,6 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     /// Cadastra um produto
     /// </summary>
     /// <param name="produto">Instância de produto</param>
-    /// <returns></returns>
     /// <response code="400">Erro na criação do produto</response>
     /// <response code="201">Produto criado com sucesso</response>
     [HttpPost]
@@ -83,15 +80,14 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     /// Atualiza um produto existente no sistema
     /// </summary>
     /// <param name="id">Identificador do produto</param>
-    /// <param name="model">Instância de produto</param>
-    /// <returns>Retorna o produto atualizado</returns>    
+    /// <param name="model">Instância de produto</param> 
     /// <response code="200">Produto atualizado com sucesso</response>
     /// <response code="400">
     /// Retorna em caso de: 
     /// - Dados inválidos no modelo
     /// - ID do produto não encontrado
     /// </response>
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:int:min(1)}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Produto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Put(ProdutoInputModel model, int id)
@@ -115,7 +111,7 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     /// - Dados enviados são inconsistentes
     /// </response>
     /// <response code="404">Produto não encontrado</response>
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:int:min(1)}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(String))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(String))]

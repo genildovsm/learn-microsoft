@@ -3,20 +3,22 @@ using System.Text.Json.Serialization;
 using apiCatalogo.Context;
 using apiCatalogo.Extensions;
 using apiCatalogo.Filters;
+using apiCatalogo.Logging;
 using apiCatalogo.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region Tratamento da referência cíclica na serialização de objetos
-
-builder.Services.AddControllers()
-    .AddJsonOptions(
-        o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
+builder.Services.AddControllers(o =>
+{
+    // Filtro global para exceções não tratadas
+    o.Filters.Add(typeof(ApiExceptionFilter));
+})
+// Tratamento da referência cíclica na serialização de objetos
+.AddJsonOptions(o => 
+        o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
     );
-
-#endregion
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -52,6 +54,11 @@ builder.Services.AddDbContext<ApiCatalogoDbContext>(options =>
 });
 
 builder.Services.AddScoped<ApiLoggingFilter>();
+
+builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfig
+{
+    LogLevel = LogLevel.Information
+}));
 
 var app = builder.Build();
 

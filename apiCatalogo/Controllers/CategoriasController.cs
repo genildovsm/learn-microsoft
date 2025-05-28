@@ -5,16 +5,12 @@ using apiCatalogo.Filters;
 using apiCatalogo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
 namespace apiCatalogo.Controllers;
 
 /// <summary>
 /// Controlador de categorias
 /// </summary>
-/// <remarks>
-///
-/// </remarks>
 [ApiController]
 [Route("[controller]")]
 public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
@@ -24,7 +20,6 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// <summary>
     /// Consulta todas as categorias e seus produtos relacionados
     /// </summary>
-    /// <returns>Retorna uma lista de categorias</returns>
     /// <response code="200">A consulta encontrou registros</response>
     /// <response code="204">A consulta não encontrou registros</response>
     [HttpGet("Produtos")]
@@ -44,13 +39,11 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// Obtém a categoria por id
     /// </summary>
     /// <param name="id">Identificador da categoria</param>
-    /// <returns>Retorna uma categoria</returns>
     /// <response code="200">Categoria encontrada</response>
     /// <response code="404">Categoria não encontrada</response>
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ServiceFilter(typeof(ApiLoggingFilter))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]    
     public async Task<IActionResult> Get(int id)
     {
         Categoria? categoria = await _context.Categorias
@@ -67,7 +60,6 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// Cria um nova categoria
     /// </summary>
     /// <param name="model">Modelo de entrada para categoria</param>
-    /// <returns>Retorna a categoria adicionada</returns>
     /// <response code="400">Categoria não informada</response>
     /// <response code="201">Categoria cadastrada</response>
     [HttpPost]
@@ -88,7 +80,6 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// </summary>
     /// <param name="id">Identificador da categoria</param>
     /// <param name="model">Instância do modelo de entrada de categoria</param>
-    /// <returns>Retorna uma categoria atualizada</returns>
     /// <response code="400">Categoria não informada</response>
     /// <response code="200">Categoria atualizada</response>
     [HttpPut("{id:int:min(1)}")]
@@ -111,7 +102,6 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// Deleta uma categoria
     /// </summary>
     /// <param name="id">identificador da categoria</param>
-    /// <returns></returns>
     /// <response code="204">Retorna a categoria excluída</response>
     /// <response code="404">Categoria não localizada</response>
     [HttpDelete("{id:int:min(1)}")]
@@ -130,5 +120,16 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
         _context.Entry(categoria).State = EntityState.Detached;
 
         return NoContent();
+    }
+
+    /// <summary>
+    /// Exemplificação do uso de Filters a nível de actions
+    /// </summary>
+    [HttpGet("[action]", Name = "usando-filters")]
+    [ServiceFilter(typeof(ApiLoggingFilter))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult UsandoFilters()
+    {
+        return Ok("Esta action está usando o recurso de Filters");
     }
 }

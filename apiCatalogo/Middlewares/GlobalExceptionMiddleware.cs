@@ -13,10 +13,8 @@ public class GlobalExceptionMiddleware
     private readonly ILogger<GlobalExceptionMiddleware> _logger;
 
     /// <summary>
-    /// 
+    /// Construtor da classe
     /// </summary>
-    /// <param name="next"></param>
-    /// <param name="logger"></param>
     public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
     {
         _next = next;
