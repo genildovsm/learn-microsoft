@@ -1,36 +1,29 @@
 ﻿using apiCatalogo.Context;
-using apiCatalogo.DTOs.Views;
 using apiCatalogo.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace apiCatalogo.Repositories
 {
-    /// <summary>
-    /// Repositório de Categoria
-    /// </summary>
+    #pragma warning disable CS1591 
     public class CategoriaRepository : ICategoriaRepository
     {
         private readonly ApiCatalogoDbContext _context;
 
-        /// <summary>
-        /// Contrutor da classe
-        /// </summary>
-        /// <param name="context">Instância do contexto</param>
         public CategoriaRepository(ApiCatalogoDbContext context)
         {
             _context = context;
         }
 
-        async Task ICategoriaRepository.AtualizarCategoriaAsync(Categoria categoria)
+        async Task ICategoriaRepository.CategoriaUpdateAsync(Categoria categoria)
         {
-            _context.Entry(categoria).State = EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-
-            _context.Entry(categoria).State = EntityState.Detached;
+            if ( await _context.Categorias.AnyAsync(c => c.Id == categoria.Id) )
+            {
+                _context.Categorias.Update(categoria);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        async Task<Categoria> ICategoriaRepository.CriarCategoriaAsync(Categoria categoria)
+        async Task<Categoria> ICategoriaRepository.CategoriaCreateAsync(Categoria categoria)
         {
             await _context.AddAsync(categoria);
             await _context.SaveChangesAsync();
@@ -39,29 +32,32 @@ namespace apiCatalogo.Repositories
 
             return categoria;
         }
-
-        async Task ICategoriaRepository.DeleteCategoriaAsync(Categoria categoria)
+         
+        async Task<bool> ICategoriaRepository.CategoriaDeleteAsync(int id)
         { 
-            _context.Remove(categoria);
-            await _context.SaveChangesAsync();
+            var categoria = await _context.Categorias.FindAsync(id);
+
+            if (categoria is not null)
+            {
+                _context.Categorias.Remove(categoria);
+                await _context.SaveChangesAsync();
+
+                return true;
+            } 
+            
+            return false;
         }
 
-        IQueryable<Categoria> ICategoriaRepository.ObterCategoriasProdutos()
+        IQueryable<Categoria> ICategoriaRepository.CategoriasProdutosGetAll() 
         {
             return _context.Categorias
                 .Include(c => c.Produtos)
                 .AsNoTracking();
         }
-
-        /// <summary>
-        /// Obtém uma categoria correspondente ao Id informado
-        /// </summary>
-        /// <param name="id">Id da Categoria</param>
-        async Task<Categoria?> ICategoriaRepository.ObterCategoriaPorIdAsync(int id)
+        
+        async Task<Categoria?> ICategoriaRepository.CategoriaGetByIdAsync(int id)
         {
-            return await _context.Categorias
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Categorias.FindAsync(id);
         }
     }
 }

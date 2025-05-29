@@ -11,29 +11,29 @@ namespace apiCatalogo.Repositories
         /// Atualiza uma categoria
         /// </summary>
         /// <param name="categoria">Instância da entidade Categoria</param>
-        Task AtualizarCategoriaAsync(Categoria categoria);
+        Task CategoriaUpdateAsync(Categoria categoria);
 
         /// <summary>
         /// Cria uma categoria
         /// </summary>
         /// <param name="categoria">Instância da entidade Categoria</param>
-        Task<Categoria> CriarCategoriaAsync(Categoria categoria);
+        Task<Categoria> CategoriaCreateAsync(Categoria categoria);
 
         /// <summary>
         /// Excluir uma categoria
         /// </summary>
-        /// <param name="categoria">Instância da entidade Categoria</param>
-        Task DeleteCategoriaAsync(Categoria categoria);
+        /// <param name="id">Id da Categoria</param>
+        Task<bool> CategoriaDeleteAsync(int id);
 
         /// <summary>
         /// Obtém uma lista de categorias
         /// </summary>
-        IQueryable<Categoria> ObterCategoriasProdutos();
+        IQueryable<Categoria> CategoriasProdutosGetAll();
 
         /// <summary>
         /// Obtém uma categoria correspondente ao Id informado
         /// </summary>
         /// <param name="id">Id da categoria</param>
-        Task<Categoria?> ObterCategoriaPorIdAsync(int id);        
+        Task<Categoria?> CategoriaGetByIdAsync(int id);        
     }
 }

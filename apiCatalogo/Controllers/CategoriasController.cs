@@ -1,4 +1,3 @@
-using apiCatalogo.Context;
 using apiCatalogo.DTOs.Inputs;
 using apiCatalogo.DTOs.Views;
 using apiCatalogo.Filters;
@@ -15,10 +14,8 @@ namespace apiCatalogo.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class CategoriasController (
-    ApiCatalogoDbContext context, 
     ICategoriaRepository categoriaRepository) : ControllerBase
 {
-    private readonly ApiCatalogoDbContext _context = context;
     private readonly ICategoriaRepository _categoriaRepository = categoriaRepository;
 
     /// <summary>
@@ -29,10 +26,10 @@ public class CategoriasController (
     [HttpGet("Produtos")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetCategoriasProdutos()
+    public async Task<IActionResult> GetAll()
     {
-        IEnumerable<Categoria> categorias = await _categoriaRepository
-            .ObterCategoriasProdutos()
+        var categorias = await _categoriaRepository
+            .CategoriasProdutosGetAll()
             .ToListAsync();
 
         return (categorias is null) ? NoContent() : Ok(categorias);
@@ -47,9 +44,9 @@ public class CategoriasController (
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]    
-    public async Task<IActionResult> Get(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var categoria = await _categoriaRepository.ObterCategoriaPorIdAsync(id);
+        var categoria = await _categoriaRepository.CategoriaGetByIdAsync(id);
 
         if (categoria is null) return NotFound("Categoria não encontrada");
 
@@ -67,7 +64,7 @@ public class CategoriasController (
     [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]    
     public async Task<IActionResult> Post(CategoriaInputModel model)
     {
-        Categoria categoria = await _categoriaRepository.CriarCategoriaAsync(model);
+        var categoria = await _categoriaRepository.CategoriaCreateAsync(model);
 
         if (categoria is null) return BadRequest("Erro na criação da categoria");
 
@@ -90,14 +87,14 @@ public class CategoriasController (
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]    
     public async Task<IActionResult> Put(int id, CategoriaInputModel model)
     {
-        Categoria? result = await _categoriaRepository.ObterCategoriaPorIdAsync(id);
+        Categoria? result = await _categoriaRepository.CategoriaGetByIdAsync(id);
 
         if (result is null) return BadRequest("Categoria não encontrada");
 
         Categoria novaCategoria = (Categoria)model;
         novaCategoria.Id = id;
 
-        await _categoriaRepository.AtualizarCategoriaAsync(novaCategoria);
+        await _categoriaRepository.CategoriaUpdateAsync(novaCategoria);
 
         return Ok(novaCategoria);
     }
@@ -109,17 +106,13 @@ public class CategoriasController (
     /// <response code="204"></response>
     /// <response code="404">Categoria não localizada</response>
     [HttpDelete("{id:int:min(1)}")]    
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Delete(int id)
     {
-        Categoria? categoria = await _categoriaRepository.ObterCategoriaPorIdAsync(id);
+        bool wasDeleted = await _categoriaRepository.CategoriaDeleteAsync(id);
 
-        if (categoria is null) return NotFound("Categoria não encontrada");
-
-        await _categoriaRepository.DeleteCategoriaAsync(categoria);
-
-        return NoContent();
+        return (wasDeleted) ? Ok("Categoria excluída") : BadRequest("Nenhum dado foi alterado");
     }
 
     /// <summary>
