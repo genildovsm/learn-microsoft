@@ -44,16 +44,18 @@ namespace apiCatalogo.Logging
         /// </summary>
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
-            string mensagem = $"[ {DateTime.Now} ] {logLevel}: [ {eventId.Id} ] - {formatter(state, exception)}";
+            string mensagem = $"{DateTime.Now} {logLevel}: [ {eventId.Id} ] - {formatter(state, exception)}";
 
             EscreverNoArquivo(mensagem);
         }
 
         private async void EscreverNoArquivo(string texto)
         {
-            string caminhoArquivoLog = Environment.CurrentDirectory + @"\logs\apiCatalogo.log";
+            
+            string diretorioLog = Environment.CurrentDirectory + $"/Logs";
+            string arquivoLog = $"{diretorioLog}/{DateTime.Now.Year}{DateTime.Now.Month.ToString().PadLeft(2, '0')}{DateTime.Now.Day.ToString().PadLeft(2, '0')}.log";
 
-            using StreamWriter streamWriter = new (caminhoArquivoLog, true);
+            using StreamWriter streamWriter = new (arquivoLog, true);
 
             try
             {

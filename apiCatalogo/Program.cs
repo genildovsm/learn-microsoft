@@ -5,6 +5,7 @@ using apiCatalogo.Extensions;
 using apiCatalogo.Filters;
 using apiCatalogo.Logging;
 using apiCatalogo.Middlewares;
+using apiCatalogo.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -52,6 +53,12 @@ builder.Services.AddDbContext<ApiCatalogoDbContext>(options =>
     options.EnableSensitiveDataLogging();
     options.EnableDetailedErrors();
 });
+
+#region Registro dos repositórios como serviço
+
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
+#endregion
 
 builder.Services.AddScoped<ApiLoggingFilter>();
 

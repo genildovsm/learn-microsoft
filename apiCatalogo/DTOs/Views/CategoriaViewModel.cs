@@ -3,7 +3,7 @@ using apiCatalogo.Models;
 namespace apiCatalogo.DTOs.Views;
 
 /// <summary>
-/// 
+/// Modelo de visualização
 /// </summary>
 public class CategoriaViewModel
 {
@@ -42,8 +42,10 @@ public class CategoriaViewModel
     /// Conversão implícita
     /// </summary>
     /// <param name="categoria"></param>
-    public static implicit operator CategoriaViewModel(Categoria categoria)
+    public static implicit operator CategoriaViewModel? (Categoria categoria)
     {
+        if (categoria is null) return null;
+
         return new CategoriaViewModel
         {
             Id = categoria.Id,

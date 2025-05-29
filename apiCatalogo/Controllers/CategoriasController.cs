@@ -3,6 +3,7 @@ using apiCatalogo.DTOs.Inputs;
 using apiCatalogo.DTOs.Views;
 using apiCatalogo.Filters;
 using apiCatalogo.Models;
+using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,12 +14,15 @@ namespace apiCatalogo.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
+public class CategoriasController (
+    ApiCatalogoDbContext context, 
+    ICategoriaRepository categoriaRepository) : ControllerBase
 {
     private readonly ApiCatalogoDbContext _context = context;
+    private readonly ICategoriaRepository _categoriaRepository = categoriaRepository;
 
     /// <summary>
-    /// Consulta todas as categorias e seus produtos relacionados
+    /// Obtém todas as categorias e seus produtos relacionados
     /// </summary>
     /// <response code="200">A consulta encontrou registros</response>
     /// <response code="204">A consulta não encontrou registros</response>
@@ -27,9 +31,8 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> GetCategoriasProdutos()
     {
-        IEnumerable<Categoria> categorias = await _context.Categorias
-            .AsNoTracking()
-            .Include(c => c.Produtos)
+        IEnumerable<Categoria> categorias = await _categoriaRepository
+            .ObterCategoriasProdutos()
             .ToListAsync();
 
         return (categorias is null) ? NoContent() : Ok(categorias);
@@ -43,81 +46,78 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// <response code="404">Categoria não encontrada</response>
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]    
+    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]    
     public async Task<IActionResult> Get(int id)
     {
-        Categoria? categoria = await _context.Categorias
-            .Where(p => p.Id == id)
-            .AsNoTracking()
-            .FirstOrDefaultAsync();
+        var categoria = await _categoriaRepository.ObterCategoriaPorIdAsync(id);
 
         if (categoria is null) return NotFound("Categoria não encontrada");
 
-        return Ok((CategoriaViewModel)categoria); 
+        return Ok( (CategoriaViewModel?) categoria ); 
     }
 
     /// <summary>
     /// Cria um nova categoria
     /// </summary>
-    /// <param name="model">Modelo de entrada para categoria</param>
-    /// <response code="400">Categoria não informada</response>
+    /// <param name="model">Modelo de entrada para categoria</param>    
     /// <response code="201">Categoria cadastrada</response>
+    /// <response code="400">Categoria não informada</response>
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(Categoria),StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]    
     public async Task<IActionResult> Post(CategoriaInputModel model)
     {
-        Categoria categoria = model;
+        Categoria categoria = await _categoriaRepository.CriarCategoriaAsync(model);
 
-        _context.Categorias.Add(categoria);
-        await _context.SaveChangesAsync();
+        if (categoria is null) return BadRequest("Erro na criação da categoria");
 
-        return new CreatedAtRouteResult("ObterCategoria", new { id = categoria.Id }, categoria);
+        return new CreatedAtRouteResult(
+            "ObterCategoria", 
+            new { id = categoria.Id }, 
+            (CategoriaViewModel?)categoria
+        );
     }
 
     /// <summary>
     /// Atualiza os dados da categoria
     /// </summary>
     /// <param name="id">Identificador da categoria</param>
-    /// <param name="model">Instância do modelo de entrada de categoria</param>
-    /// <response code="400">Categoria não informada</response>
+    /// <param name="model">Instância do modelo de entrada de categoria</param>    
     /// <response code="200">Categoria atualizada</response>
+    /// <response code="400">Categoria não informada</response>
     [HttpPut("{id:int:min(1)}")]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CategoriaViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]    
     public async Task<IActionResult> Put(int id, CategoriaInputModel model)
     {
-        Categoria categoria = model;
-        categoria.Id = id;
+        Categoria? result = await _categoriaRepository.ObterCategoriaPorIdAsync(id);
 
-        _context.Entry(categoria).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        if (result is null) return BadRequest("Categoria não encontrada");
 
-        _context.Entry(categoria).State = EntityState.Detached;
+        Categoria novaCategoria = (Categoria)model;
+        novaCategoria.Id = id;
 
-        return Ok(categoria);
+        await _categoriaRepository.AtualizarCategoriaAsync(novaCategoria);
+
+        return Ok(novaCategoria);
     }
 
     /// <summary>
     /// Deleta uma categoria
     /// </summary>
     /// <param name="id">identificador da categoria</param>
-    /// <response code="204">Retorna a categoria excluída</response>
+    /// <response code="204"></response>
     /// <response code="404">Categoria não localizada</response>
-    [HttpDelete("{id:int:min(1)}")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpDelete("{id:int:min(1)}")]    
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var categoria = await _context.Categorias
-            .FirstOrDefaultAsync(c => c.Id == id);
+        Categoria? categoria = await _categoriaRepository.ObterCategoriaPorIdAsync(id);
 
         if (categoria is null) return NotFound("Categoria não encontrada");
 
-        _context.Remove(categoria);
-        await _context.SaveChangesAsync();
-
-        _context.Entry(categoria).State = EntityState.Detached;
+        await _categoriaRepository.DeleteCategoriaAsync(categoria);
 
         return NoContent();
     }
@@ -127,7 +127,7 @@ public class CategoriasController(ApiCatalogoDbContext context) : ControllerBase
     /// </summary>
     [HttpGet("[action]", Name = "usando-filters")]
     [ServiceFilter(typeof(ApiLoggingFilter))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string),StatusCodes.Status200OK)]
     public IActionResult UsandoFilters()
     {
         return Ok("Esta action está usando o recurso de Filters");
