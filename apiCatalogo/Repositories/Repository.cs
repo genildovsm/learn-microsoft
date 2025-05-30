@@ -86,7 +86,6 @@ namespace apiCatalogo.Repositories
         /// Atualiza um registro da entidade genérica
         /// </summary>
         /// <param name="entity">Entidade genérica</param>
-        /// <returns></returns>
         public T Update(T entity)
         {
             var entry = _context.Entry(entity);
