@@ -57,6 +57,8 @@ builder.Services.AddDbContext<ApiCatalogoDbContext>(options =>
 #region Registro dos repositórios como serviço
 
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 #endregion
 

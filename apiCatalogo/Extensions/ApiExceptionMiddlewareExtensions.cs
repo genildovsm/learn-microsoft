@@ -1,7 +1,6 @@
-using System;
-using System.Net;
 using apiCatalogo.Models;
 using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
 
 namespace apiCatalogo.Extensions;
 

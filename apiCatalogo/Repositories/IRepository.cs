@@ -9,6 +9,13 @@ namespace apiCatalogo.Repositories
     public interface IRepository<T> where T : class
     {
         /// <summary>
+        /// Verifica se existe e retorna um booleano
+        /// </summary>
+        /// <param name="predicado"></param>
+        /// <returns></returns>
+        bool Any(Expression<Func<T, bool>> predicado);
+
+        /// <summary>
         /// Obter uma lista dos registros de T
         /// </summary>
         IEnumerable<T> GetAll();
@@ -17,7 +24,7 @@ namespace apiCatalogo.Repositories
         /// Obter um registro de T correspondente à expressão lâmbda fornecida
         /// </summary>
         /// <param name="predicado">Função lâmbda. Ex: _repo.Get(x => x.Id == id)</param>
-        T? Get(Expression<Func<T,bool>> predicado);
+        T? Get(Expression<Func<T, bool>> predicado);
 
         /// <summary>
         /// Cria um novo registro de T
@@ -35,6 +42,6 @@ namespace apiCatalogo.Repositories
         /// Exclui um registro de T correspondente ao Id informado
         /// </summary>
         /// <param name="entity"></param>
-        T Delete(T entity);
+        void Delete(T entity);
     }
 }

@@ -9,6 +9,12 @@ namespace apiCatalogo.DTOs.Inputs;
 public class CategoriaInputModel
 {
     /// <summary>
+    /// Id da categoria
+    /// </summary>
+    [Display(Name = "Id da categoria")]
+    public int Id { get; set; }
+
+    /// <summary>
     /// Nome da categoria
     /// </summary>
     [Display(Name = "Nome")]
@@ -30,6 +36,7 @@ public class CategoriaInputModel
     {
         return new Categoria
         {
+            Id = model.Id,
             Nome = model.Nome,
             ImagemUrl = model.ImagemUrl,
         };

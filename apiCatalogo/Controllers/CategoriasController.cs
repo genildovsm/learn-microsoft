@@ -4,7 +4,6 @@ using apiCatalogo.Filters;
 using apiCatalogo.Models;
 using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace apiCatalogo.Controllers;
 
@@ -26,11 +25,9 @@ public class CategoriasController (
     [HttpGet("Produtos")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetAll()
+    public IActionResult Get()
     {
-        var categorias = await _categoriaRepository
-            .CategoriasProdutosGetAll()
-            .ToListAsync();
+        var categorias = _categoriaRepository.GetAll().ToList(); 
 
         return (categorias is null) ? NoContent() : Ok(categorias);
     }
@@ -44,13 +41,13 @@ public class CategoriasController (
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]    
-    public async Task<IActionResult> GetById(int id)
+    public IActionResult Get(int id)
     {
-        var categoria = await _categoriaRepository.CategoriaGetByIdAsync(id);
+        var categoria = _categoriaRepository.Get(c => c.Id == id);
 
         if (categoria is null) return NotFound("Categoria não encontrada");
 
-        return Ok( (CategoriaViewModel?) categoria ); 
+        return Ok( (CategoriaViewModel?) categoria );
     }
 
     /// <summary>
@@ -62,9 +59,9 @@ public class CategoriasController (
     [HttpPost]
     [ProducesResponseType(typeof(Categoria),StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]    
-    public async Task<IActionResult> Post(CategoriaInputModel model)
+    public IActionResult Post(CategoriaInputModel model)
     {
-        var categoria = await _categoriaRepository.CategoriaCreateAsync(model);
+        var categoria = _categoriaRepository.Create(model);
 
         if (categoria is null) return BadRequest("Erro na criação da categoria");
 
@@ -78,41 +75,45 @@ public class CategoriasController (
     /// <summary>
     /// Atualiza os dados da categoria
     /// </summary>
-    /// <param name="id">Identificador da categoria</param>
     /// <param name="model">Instância do modelo de entrada de categoria</param>    
     /// <response code="200">Categoria atualizada</response>
-    /// <response code="400">Categoria não informada</response>
-    [HttpPut("{id:int:min(1)}")]
+    /// <response code="404">Categoria não encontrada</response>
+    [HttpPut]
     [ProducesResponseType(typeof(CategoriaViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]    
-    public async Task<IActionResult> Put(int id, CategoriaInputModel model)
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]    
+    public IActionResult Put(CategoriaInputModel model)
     {
-        Categoria? result = await _categoriaRepository.CategoriaGetByIdAsync(id);
+        if ( _categoriaRepository.Any(c => c.Id == model.Id) )
+        {
+            Categoria categoria = _categoriaRepository.Update(model);
 
-        if (result is null) return BadRequest("Categoria não encontrada");
+            return Ok(categoria);
+        }
 
-        Categoria novaCategoria = (Categoria)model;
-        novaCategoria.Id = id;
-
-        await _categoriaRepository.CategoriaUpdateAsync(novaCategoria);
-
-        return Ok(novaCategoria);
+        return BadRequest("Categoria não encontrada");
     }
 
     /// <summary>
     /// Deleta uma categoria
     /// </summary>
-    /// <param name="id">identificador da categoria</param>
-    /// <response code="204"></response>
-    /// <response code="404">Categoria não localizada</response>
+    /// <param name="id">Id da categoria</param>
+    /// <response code="200">Categoria excluída</response>
+    /// <response code="404">Categoria não encontrada</response>
     [HttpDelete("{id:int:min(1)}")]    
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Delete(int id)
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public IActionResult Delete(int id)
     {
-        bool wasDeleted = await _categoriaRepository.CategoriaDeleteAsync(id);
+        Categoria? categoria = _categoriaRepository.Get(c => c.Id == id);
 
-        return (wasDeleted) ? Ok("Categoria excluída") : BadRequest("Nenhum dado foi alterado");
+        if (categoria is not null)
+        {
+            _categoriaRepository.Delete(categoria);
+
+            return Ok("Categoria excluída");
+        }
+
+        return NotFound("Categoria não encontrada");
     }
 
     /// <summary>
