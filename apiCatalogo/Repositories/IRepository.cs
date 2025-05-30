@@ -5,49 +5,49 @@ namespace apiCatalogo.Repositories
     /// <summary>
     /// Interface genérica de acesso a dados
     /// </summary>
-    /// <typeparam name="T">Classe genérica</typeparam>
+    /// <typeparam name="T">Entidade genérica</typeparam>
     public interface IRepository<T> where T : class
     {
         /// <summary>
-        /// Verifica se existe e retorna um booleano
+        /// Verifica se existe na entidade genérica e retorna um booleano
         /// </summary>
         /// <param name="predicado"></param>
         /// <returns></returns>
         bool Any(Expression<Func<T, bool>> predicado);
 
         /// <summary>
-        /// Obtém um registro de T com base na chave primária
+        /// Obtém um registro da entidade genérica com base na chave primária
         /// </summary>
         /// <param name="id">Chave primária de T</param>
-        T? Find(int id); 
+        T? Find(int id);
 
         /// <summary>
-        /// Obter uma lista dos registros de T
+        /// Obter uma lista de todos os registros da entidade genérica
         /// </summary>
         IEnumerable<T> GetAll();
 
         /// <summary>
-        /// Obter um registro de T correspondente à expressão lâmbda fornecida
+        /// Obter um registro da entidade genérica correspondente à expressão lambda
         /// </summary>
-        /// <param name="predicado">Função lâmbda. Ex: _repo.Get(x => x.Id == id)</param>
+        /// <param name="predicado">Função lâmbda</param>
         T? Get(Expression<Func<T, bool>> predicado);
 
         /// <summary>
-        /// Cria um novo registro de T
+        /// Cria um novo registro na entidade genérica
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">Entidade genérica</param>
         T Create(T entity);
 
         /// <summary>
-        /// Atualiza um registro de T
+        /// Atualiza um registro na entidade genérica
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">Entidade genérica</param>
         T Update (T entity);
 
         /// <summary>
-        /// Exclui um registro de T correspondente ao Id informado
+        /// Exclui um registro da entidade genérica
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">Entidade genérica</param>
         void Delete(T entity);
     }
 }
