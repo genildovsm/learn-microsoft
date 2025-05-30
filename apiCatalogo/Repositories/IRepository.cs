@@ -16,6 +16,12 @@ namespace apiCatalogo.Repositories
         bool Any(Expression<Func<T, bool>> predicado);
 
         /// <summary>
+        /// Obtém um registro de T com base na chave primária
+        /// </summary>
+        /// <param name="id">Chave primária de T</param>
+        T? Find(int id); 
+
+        /// <summary>
         /// Obter uma lista dos registros de T
         /// </summary>
         IEnumerable<T> GetAll();
