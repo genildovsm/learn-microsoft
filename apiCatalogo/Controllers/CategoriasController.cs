@@ -1,10 +1,11 @@
-using apiCatalogo.DTOs.Inputs;
-using apiCatalogo.DTOs.Views;
+using apiCatalogo.DTOs;
+using apiCatalogo.DTOs.Mappings;
 using apiCatalogo.Filters;
 using apiCatalogo.Models;
 using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
+#pragma warning disable
 namespace apiCatalogo.Controllers;
 
 /// <summary>
@@ -12,24 +13,33 @@ namespace apiCatalogo.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class CategoriasController (
-    ICategoriaRepository categoriaRepository) : ControllerBase
+public class CategoriasController : ControllerBase
 {
-    private readonly ICategoriaRepository _categoriaRepository = categoriaRepository;
+    private readonly IUnitOfWork _uof;
+    private readonly ILogger<CategoriasController> _logger;
+
+    
+    /// <param name="categoriaRepository"></param>
+    public CategoriasController(ILogger<CategoriasController> logger, IUnitOfWork uof)
+    {
+        _logger = logger;
+        _uof = uof;
+    }
 
     /// <summary>
     /// Obtém todas as categorias e seus produtos relacionados
     /// </summary>
     /// <response code="200">A consulta encontrou registros</response>
     /// <response code="204">A consulta não encontrou registros</response>
-    [HttpGet("Produtos")]
-    [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
+    [HttpGet("ObterCategoriaProdutos")]
+    [ProducesResponseType(typeof(IEnumerable<CategoriaDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public IActionResult Get()
+    public ActionResult<IEnumerable<CategoriaDTO>> Get()
     {
-        var categorias = _categoriaRepository.GetAll().ToList(); 
+        var categorias = _uof.CategoriaRepository.GetAll();
+        var categoriasDTO = categorias.ToCategoriaDTOList();
 
-        return (categorias is null) ? NoContent() : Ok(categorias);
+        return (categoriasDTO is null) ? NoContent() : Ok(categoriasDTO);
     }
 
     /// <summary>
@@ -37,83 +47,104 @@ public class CategoriasController (
     /// </summary>
     /// <param name="id">Identificador da categoria</param>
     /// <response code="200">Categoria encontrada</response>
-    /// <response code="404">Categoria não encontrada</response>
+    /// <response code="404">Nenhum registro encontrado</response>
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
-    [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CategoriaResponseDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]    
-    public IActionResult Get(int id)
+    public ActionResult<CategoriaResponseDTO> Get(int id)
     {
-        var categoria = _categoriaRepository.Get(c => c.Id == id);
+        var categoria = _uof.CategoriaRepository.Find(id);
 
-        if (categoria is null) return NotFound("Categoria não encontrada");
+        if (categoria is null)
+        {
+            string message = $"Categoria com id={id} não encontrada";
 
-        return Ok( (CategoriaViewModel?) categoria );
+            _logger.LogWarning(message);
+
+            return NotFound(message);
+        }
+
+        var CategoriaResponseDTO = categoria.ToCategoriaResponseDTO();   
+
+        return Ok(CategoriaResponseDTO);
     }
 
     /// <summary>
-    /// Cria um nova categoria
+    /// Cria uma categoria
     /// </summary>
-    /// <param name="model">Modelo de entrada para categoria</param>    
+    /// <param name="categoriaRequestDTO">Modelo de entrada para categoria</param>    
     /// <response code="201">Categoria cadastrada</response>
     /// <response code="400">Categoria não informada</response>
-    [HttpPost]
-    [ProducesResponseType(typeof(Categoria),StatusCodes.Status201Created)]
+    [HttpPost(Name = "CriarCategoria")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]    
-    public IActionResult Post(CategoriaInputModel model)
+    public IActionResult Post(CategoriaRequestDTO categoriaRequestDTO)
     {
-        var categoria = _categoriaRepository.Create(model);
+        var categoria = categoriaRequestDTO.ToCategoria();
+            
+        var novaCategoria = _uof.CategoriaRepository.Create(categoria);
 
-        if (categoria is null) return BadRequest("Erro na criação da categoria");
+        _uof.Commit();
 
-        return new CreatedAtRouteResult(
-            "ObterCategoria", 
-            new { id = categoria.Id }, 
-            (CategoriaViewModel?)categoria
-        );
+        var categoriaResponseDTO = novaCategoria.ToCategoriaResponseDTO();
+
+        return CreatedAtRoute("ObterCategoria", new { id = categoriaResponseDTO.Id }, categoriaResponseDTO);
     }
 
     /// <summary>
     /// Atualiza os dados da categoria
     /// </summary>
-    /// <param name="model">Instância do modelo de entrada de categoria</param>    
+    /// <param name="id">Id da categoria a ser atualizada</param>
+    /// <param name="categoriaRequestDTO">Instância do modelo de entrada de categoria</param>    
     /// <response code="200">Categoria atualizada</response>
     /// <response code="404">Categoria não encontrada</response>
-    [HttpPut]
-    [ProducesResponseType(typeof(CategoriaViewModel), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]    
-    public IActionResult Put(CategoriaInputModel model)
+    [HttpPut("{id:int:min(1)}", Name = "AtualizarCategoria")]
+    [ProducesResponseType(typeof(CategoriaResponseDTO), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public ActionResult<CategoriaResponseDTO> Put(int id, CategoriaRequestDTO categoriaRequestDTO)
     {
-        if ( _categoriaRepository.Any(c => c.Id == model.Id) )
+        if ( _uof.CategoriaRepository.Any(c => c.Id == id) )
         {
-            Categoria categoria = _categoriaRepository.Update(model);
+            var categoria = categoriaRequestDTO.ToCategoria();
+            categoria.Id = id;
 
-            return Ok(categoria);
+            var categoriaAtualizada = _uof.CategoriaRepository.Update(categoria);
+
+            _uof.Commit();
+
+            var categoriaResponseDTO = new CategoriaResponseDTO
+            {
+                Id = categoriaAtualizada.Id,
+                Nome = categoriaAtualizada.Nome,
+                ImagemUrl = categoriaAtualizada.ImagemUrl
+            };
+
+            return Ok(categoriaResponseDTO);
         }
 
-        return BadRequest("Categoria não encontrada");
+        return NotFound("Categoria não encontrada");
     }
 
     /// <summary>
     /// Deleta uma categoria
     /// </summary>
     /// <param name="id">Id da categoria</param>
-    /// <response code="200">Categoria excluída</response>
+    /// <response code="204">Categoria excluída</response>
     /// <response code="404">Categoria não encontrada</response>
     [HttpDelete("{id:int:min(1)}")]    
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public IActionResult Delete(int id)
     {
-        Categoria? categoria = _categoriaRepository.Get(c => c.Id == id);
+        var categoria = _uof.CategoriaRepository.Find(id);
 
-        if (categoria is not null)
-        {
-            _categoriaRepository.Delete(categoria);
+        if (categoria is null) return NotFound("Categoria não encontrada");
+       
+        _uof.CategoriaRepository.Delete(categoria);
 
-            return Ok("Categoria excluída");
-        }
+        _uof.Commit();
 
-        return NotFound("Categoria não encontrada");
+        return NoContent();        
     }
 
     /// <summary>

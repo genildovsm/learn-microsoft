@@ -37,10 +37,6 @@ namespace apiCatalogo.Repositories
         public T Create(T entity)
         {
             _context.Set<T>().Add(entity);
-            _context.SaveChanges();
-
-            _context.Entry(entity).State = EntityState.Detached;
-
             return entity;
         }
 
@@ -51,7 +47,6 @@ namespace apiCatalogo.Repositories
         public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
-            _context.SaveChanges();
         }
 
         /// <summary>
@@ -71,6 +66,7 @@ namespace apiCatalogo.Repositories
         public T? Get(Expression<Func<T, bool>> predicado)
         {
             return _context.Set<T>()
+                .AsNoTracking()
                 .FirstOrDefault(predicado);
         }
 
@@ -79,7 +75,9 @@ namespace apiCatalogo.Repositories
         /// </summary>
         public IEnumerable<T> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return [.._context.Set<T>()
+                .AsNoTracking()
+                ];
         }
 
         /// <summary>
@@ -88,20 +86,7 @@ namespace apiCatalogo.Repositories
         /// <param name="entity">Entidade genérica</param>
         public T Update(T entity)
         {
-            var entry = _context.Entry(entity);
-
-            if (entry.State == EntityState.Detached)
-            {
-                _context.Set<T>().Update(entity);
-            }
-            else if (entry.State == EntityState.Added || entry.State == EntityState.Unchanged)
-            {
-                entry.State = EntityState.Modified;
-            }
-
-            _context.SaveChanges();
-            _context.Entry(entity).State = EntityState.Detached;
-
+            _context.Set<T>().Update(entity);
             return entity;
         }
     }

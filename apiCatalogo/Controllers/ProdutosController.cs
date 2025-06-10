@@ -1,38 +1,66 @@
-using apiCatalogo.Context;
-using apiCatalogo.DTOs.Inputs;
 using apiCatalogo.Models;
+using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace apiCatalogo.Controllers;
 
 /// <summary>
-/// Controlador de produtos
+/// 
 /// </summary>
-/// <param name="context">Contexto da aplicação</param>
+/// <param name="uof"></param>
+/// <param name="logger"></param>
 [ApiController]
 [Route("[controller]")]
-public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
+public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> logger) : ControllerBase
 {
-    private readonly ApiCatalogoDbContext _context = context;
+    private readonly IUnitOfWork _uof = uof;
+    private readonly ILogger<ProdutosController> _logger = logger;
+
+    /// <summary>
+    /// Obter os produtos com base no Id da categoria informada
+    /// </summary>
+    /// <param name="id">Id da categoria</param>
+    [HttpGet("[action]/{id:int:min(1)}")]
+    [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public ActionResult<IEnumerable<Produto>> GetProdutosCategoria(int id)
+    {
+        var produtos = _uof.ProdutoRepository.GetProdutosPorCategoria(id);
+
+        if (produtos is null)
+        {
+            string msg = $"Produto com a categoria={id} não localizado";
+
+            _logger.LogWarning(msg);
+
+            return NotFound(msg);
+        }
+
+        return Ok(produtos);
+    }
+
+
 
     /// <summary>
     /// Retorna uma lista de produtos
     /// </summary>
-    /// <param name="model">Modelo de entrada da consulta</param>
     /// <response code="200">A consulta retornou resultado</response>
     /// <response code="204">Consulta realizada com sucesso mas não retornou resultado</response>
     [HttpGet]
     [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> Get([FromQuery] ProdutoInputModel model)
+    public ActionResult Get()
     {
-        IEnumerable<Produto> produtos = await _context.Produtos
-            .AsNoTracking()
-            .Where(x =>
-                (string.IsNullOrEmpty(model.Nome) || x.Nome.Contains(model.Nome)) &&
-                (string.IsNullOrEmpty(model.Descricao) || x.Descricao.Contains(model.Descricao))
-            ).ToListAsync();
+        var produtos = _uof.ProdutoRepository.GetAll();
+
+        if (produtos is null)
+        {
+            string msg = $"Nenhum produto localizado";
+
+            _logger.LogWarning(msg);
+
+            return NotFound(msg);
+        }
 
         return Ok(produtos);
     }
@@ -46,12 +74,9 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     [HttpGet("{id:int}", Name = "ObterProdutoPorId")]
     [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<IActionResult> GetById(int id)
+    public ActionResult<Produto> GetById(int id)
     {
-        Produto? produto = await _context.Produtos
-            .AsNoTracking()
-            .Where(x => x.Id == id)
-            .FirstOrDefaultAsync();
+        Produto? produto = _uof.ProdutoRepository.Get(p => p.Id == id);
 
         return Ok(produto);
     }
@@ -65,22 +90,22 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Produto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Post(Produto produto)
+    public ActionResult Post(Produto produto)
     {
-        if (produto is null)
-            return BadRequest();
+        if (produto is null) return BadRequest();
 
-        _context.Produtos.Add(produto);
-        await _context.SaveChangesAsync();
+        var novoProduto = _uof.ProdutoRepository.Create(produto);
 
-        return new CreatedAtRouteResult("ObterProdutoPorId", new { id = produto.Id }, produto);
+        _uof.Commit();
+
+        return new CreatedAtRouteResult("ObterProdutoPorId", new { id = novoProduto.Id }, novoProduto);
     }
 
     /// <summary>
     /// Atualiza um produto existente no sistema
     /// </summary>
     /// <param name="id">Identificador do produto</param>
-    /// <param name="model">Instância de produto</param> 
+    /// <param name="produto">Instância de produto</param> 
     /// <response code="200">Produto atualizado com sucesso</response>
     /// <response code="400">
     /// Retorna em caso de: 
@@ -90,15 +115,15 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     [HttpPut("{id:int:min(1)}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Produto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Put(ProdutoInputModel model, int id)
+    public ActionResult<Produto> Put(int id, Produto produto)
     {
-        Produto produto = model;
         produto.Id = id;
 
-        _context.Entry(produto).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        var produtoAtualizado = _uof.ProdutoRepository.Update(produto);
 
-        return Ok(produto);
+        _uof.Commit();
+
+        return Ok(produtoAtualizado);
     }
 
     /// <summary>
@@ -115,16 +140,22 @@ public class ProdutosController(ApiCatalogoDbContext context) : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(String))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(String))]
-    public async Task<IActionResult> Put(int id)
+    public ActionResult Put(int id)
     {
-        var produto = await _context.Produtos.FindAsync(id);
+        var produto = _uof.ProdutoRepository.Get(p =>  p.Id == id);
 
-        if (produto is null) return NotFound("Produto não encontrado");
+        if (produto is null)
+        {
+            string msg = $"Produto com Id={id} não encontrado";
 
-        _context.Produtos.Remove(produto);
-        await _context.SaveChangesAsync();
+            _logger.LogWarning(msg);
 
-        _context.Entry(produto).State = EntityState.Detached;
+            return NotFound(msg);
+        }
+
+        _uof.ProdutoRepository.Delete(produto);
+
+        _uof.Commit();
 
         return NoContent();
     }

@@ -2,4 +2,4 @@
 /obj
 /.vs
 /.vscode
-Logs/*
+Logs/*.log

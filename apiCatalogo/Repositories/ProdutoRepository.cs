@@ -11,7 +11,6 @@ namespace apiCatalogo.Repositories
 
         public ProdutoRepository(ApiCatalogoDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public IEnumerable<Produto> GetProdutosPorCategoria(int id)
