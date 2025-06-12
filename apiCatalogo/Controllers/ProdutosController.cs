@@ -1,6 +1,8 @@
 using apiCatalogo.Models;
+using apiCatalogo.Pagination;
 using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace apiCatalogo.Controllers;
 
@@ -39,7 +41,30 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
         return Ok(produtos);
     }
 
+    /// <summary>
+    /// Implementação de paginação
+    /// </summary>
+    /// <param name="produtosParameters">Parâmetros de paginação para produtos</param>
+    /// <returns>Retorna os registros usando paginação</returns>
+    [HttpGet("pagination", Name = "produtos-pagination")]
+    public ActionResult Get([FromQuery]ProdutosParameters produtosParameters)
+    {
+        var produtos = _uof.ProdutoRepository.GetProdutos(produtosParameters);
 
+        var metadata = new
+        {
+            produtos.TotalCount,
+            produtos.PageSize,
+            produtos.CurrentPage,
+            produtos.TotalPages,
+            produtos.HasNext,
+            produtos.HasPrevious
+        };
+
+        Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+        return Ok(produtos);
+    }
 
     /// <summary>
     /// Retorna uma lista de produtos

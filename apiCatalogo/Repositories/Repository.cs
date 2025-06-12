@@ -71,13 +71,11 @@ namespace apiCatalogo.Repositories
         }
 
         /// <summary>
-        /// Obtem todos os registros da entidade genérica
+        /// Obtém todos os registros da entidade genérica
         /// </summary>
         public IEnumerable<T> GetAll()
         {
-            return [.._context.Set<T>()
-                .AsNoTracking()
-                ];
+            return [.._context.Set<T>().AsNoTracking()];
         }
 
         /// <summary>

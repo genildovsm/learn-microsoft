@@ -1,4 +1,5 @@
 ﻿using apiCatalogo.Models;
+using apiCatalogo.Pagination;
 
 namespace apiCatalogo.Repositories
 {
@@ -7,6 +8,11 @@ namespace apiCatalogo.Repositories
     /// </summary>
     public interface ICategoriaRepository : IRepository<Categoria>
     {
-                
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoriasParams"></param>
+        /// <returns></returns>
+        PagedList<Categoria> GetCategorias (CategoriasParameters categoriasParams);  
     }
 }

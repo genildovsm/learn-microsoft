@@ -2,8 +2,10 @@ using apiCatalogo.DTOs;
 using apiCatalogo.DTOs.Mappings;
 using apiCatalogo.Filters;
 using apiCatalogo.Models;
+using apiCatalogo.Pagination;
 using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 #pragma warning disable
 namespace apiCatalogo.Controllers;
@@ -40,6 +42,32 @@ public class CategoriasController : ControllerBase
         var categoriasDTO = categorias.ToCategoriaDTOList();
 
         return (categoriasDTO is null) ? NoContent() : Ok(categoriasDTO);
+    }
+
+    /// <summary>
+    /// Categorias paginadas
+    /// </summary>
+    /// <param name="categoriasParameters">Parâmetros de paginação</param>
+    [HttpGet("pagination")]
+    [ProducesResponseType(typeof(IEnumerable<Categoria>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public ActionResult Get([FromQuery]CategoriasParameters categoriasParameters)
+    {
+        var categorias = _uof.CategoriaRepository.GetCategorias(categoriasParameters);
+
+        var metadata = new
+        {
+            categorias.TotalCount,
+            categorias.PageSize,
+            categorias.CurrentPage,
+            categorias.TotalPages,
+            categorias.HasNext,
+            categorias.HasPrevious
+        };
+
+        Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+        return Ok(categorias);
     }
 
     /// <summary>
