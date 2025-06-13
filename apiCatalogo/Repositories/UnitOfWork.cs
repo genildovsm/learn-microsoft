@@ -2,14 +2,23 @@
 
 namespace apiCatalogo.Repositories
 {
-#pragma warning disable CS1591
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public class UnitOfWork(ApiCatalogoDbContext context) : IUnitOfWork
     {
         private readonly IProdutoRepository? _produtoRepository;
         private readonly ICategoriaRepository? _categoriaRepository;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ApiCatalogoDbContext _context = context;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public IProdutoRepository ProdutoRepository
         {
             get
@@ -18,6 +27,9 @@ namespace apiCatalogo.Repositories
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ICategoriaRepository CategoriaRepository
         {
             get
@@ -26,11 +38,18 @@ namespace apiCatalogo.Repositories
             }
         }
 
-        public void Commit()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task CommitAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose() 
         {
             _context.Dispose();    

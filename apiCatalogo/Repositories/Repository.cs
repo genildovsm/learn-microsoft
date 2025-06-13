@@ -63,19 +63,21 @@ namespace apiCatalogo.Repositories
         /// Obtém o primeiro resultado que corresponde à expressão lambda fornecida
         /// </summary>
         /// <param name="predicado">Expressão lambda</param>
-        public T? Get(Expression<Func<T, bool>> predicado)
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> predicado)
         {
-            return _context.Set<T>()
+            return await _context.Set<T>()
                 .AsNoTracking()
-                .FirstOrDefault(predicado);
+                .FirstOrDefaultAsync(predicado);
         }
 
         /// <summary>
         /// Obtém todos os registros da entidade genérica
         /// </summary>
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return [.._context.Set<T>().AsNoTracking()];
+            return await _context.Set<T>()
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         /// <summary>

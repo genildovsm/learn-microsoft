@@ -7,7 +7,6 @@ using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-#pragma warning disable
 namespace apiCatalogo.Controllers;
 
 /// <summary>
@@ -19,9 +18,12 @@ public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uof;
     private readonly ILogger<CategoriasController> _logger;
-
-    
-    /// <param name="categoriaRepository"></param>
+        
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="logger"></param>
+    /// <param name="uof"></param>
     public CategoriasController(ILogger<CategoriasController> logger, IUnitOfWork uof)
     {
         _logger = logger;
@@ -36,9 +38,9 @@ public class CategoriasController : ControllerBase
     [HttpGet("ObterCategoriaProdutos")]
     [ProducesResponseType(typeof(IEnumerable<CategoriaDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult<IEnumerable<CategoriaDTO>> Get()
+    public async Task<ActionResult<IEnumerable<CategoriaDTO>>> Get()
     {
-        var categorias = _uof.CategoriaRepository.GetAll();
+        var categorias = await _uof.CategoriaRepository.GetAllAsync();
         var categoriasDTO = categorias.ToCategoriaDTOList();
 
         return (categoriasDTO is null) ? NoContent() : Ok(categoriasDTO);
@@ -51,10 +53,15 @@ public class CategoriasController : ControllerBase
     [HttpGet("pagination")]
     [ProducesResponseType(typeof(IEnumerable<Categoria>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult Get([FromQuery]CategoriasParameters categoriasParameters)
+    public async Task<ActionResult<PagedList<Categoria>>> Get([FromQuery]CategoriasParameters categoriasParameters)
     {
-        var categorias = _uof.CategoriaRepository.GetCategorias(categoriasParameters);
+        var categorias = await _uof.CategoriaRepository.GetCategoriasAsync(categoriasParameters);
 
+        return ObterCategorias(categorias);
+    }
+
+    private ActionResult ObterCategorias(PagedList<Categoria> categorias)
+    {
         var metadata = new
         {
             categorias.TotalCount,
@@ -68,6 +75,21 @@ public class CategoriasController : ControllerBase
         Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
 
         return Ok(categorias);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="categoriasFiltro"></param>
+    /// <returns></returns>
+    [HttpGet("filter/nome/pagination", Name = "FiltroNomePagination")]
+    [ProducesResponseType(typeof(PagedList<Categoria>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<PagedList<Categoria>>> GetCategoriasFiltradas([FromQuery]CategoriasFiltroNome categoriasFiltro)
+    {
+        var categoriasFiltradas = await _uof.CategoriaRepository.GetCategoriasFiltroNomeAsync(categoriasFiltro);
+
+        return ObterCategorias(categoriasFiltradas);
     }
 
     /// <summary>
@@ -106,13 +128,13 @@ public class CategoriasController : ControllerBase
     [HttpPost(Name = "CriarCategoria")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]    
-    public IActionResult Post(CategoriaRequestDTO categoriaRequestDTO)
+    public async Task<IActionResult> Post(CategoriaRequestDTO categoriaRequestDTO)
     {
         var categoria = categoriaRequestDTO.ToCategoria();
             
         var novaCategoria = _uof.CategoriaRepository.Create(categoria);
 
-        _uof.Commit();
+        await _uof.CommitAsync();
 
         var categoriaResponseDTO = novaCategoria.ToCategoriaResponseDTO();
 
@@ -129,7 +151,7 @@ public class CategoriasController : ControllerBase
     [HttpPut("{id:int:min(1)}", Name = "AtualizarCategoria")]
     [ProducesResponseType(typeof(CategoriaResponseDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    public ActionResult<CategoriaResponseDTO> Put(int id, CategoriaRequestDTO categoriaRequestDTO)
+    public async Task<ActionResult<CategoriaResponseDTO>> Put(int id, CategoriaRequestDTO categoriaRequestDTO)
     {
         if ( _uof.CategoriaRepository.Any(c => c.Id == id) )
         {
@@ -138,7 +160,7 @@ public class CategoriasController : ControllerBase
 
             var categoriaAtualizada = _uof.CategoriaRepository.Update(categoria);
 
-            _uof.Commit();
+            await _uof.CommitAsync();
 
             var categoriaResponseDTO = new CategoriaResponseDTO
             {
@@ -162,7 +184,7 @@ public class CategoriasController : ControllerBase
     [HttpDelete("{id:int:min(1)}")]    
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         var categoria = _uof.CategoriaRepository.Find(id);
 
@@ -170,7 +192,7 @@ public class CategoriasController : ControllerBase
        
         _uof.CategoriaRepository.Delete(categoria);
 
-        _uof.Commit();
+        await _uof.CommitAsync();
 
         return NoContent();        
     }
@@ -181,7 +203,7 @@ public class CategoriasController : ControllerBase
     [HttpGet("[action]", Name = "usando-filters")]
     [ServiceFilter(typeof(ApiLoggingFilter))]
     [ProducesResponseType(typeof(string),StatusCodes.Status200OK)]
-    public IActionResult UsandoFilters()
+    public ActionResult<string> UsandoFilters()
     {
         return Ok("Esta action está usando o recurso de Filters");
     }

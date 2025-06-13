@@ -7,13 +7,26 @@ namespace apiCatalogo.Repositories
     /// 
     /// </summary>
     public interface IProdutoRepository : IRepository<Produto>
-    {        
+    {
+        /// <summary>
+        /// Obtém uma lista de produtos paginados
+        /// </summary>
         /// <param name="produtosParams">Parâmetros</param>
         /// <returns></returns>
-        PagedList<Produto> GetProdutos(ProdutosParameters produtosParams);
+        Task<PagedList<Produto>> GetProdutosAsync(ProdutosParameters produtosParams);
+
+        /// <summary>
+        /// Obtém uma lista paginada de produtos com base no filtro
+        /// </summary>
+        /// <param name="produtoFiltroParams">Parâmetros</param>
+        Task<PagedList<Produto>> GetProdutosFiltroPrecoAsync(ProdutosFiltroPreco produtoFiltroParams);
         
-        /// <param name="id">Id do produto</param>
+        /// <summary>
+        /// Obtém uma lista de produtos com base no Id da categoria 
+        /// </summary>
+        /// <param name="id">Id da categoria</param>
         /// <returns></returns>
-        IEnumerable<Produto> GetProdutosPorCategoria(int id);
+        Task<IEnumerable<Produto>> GetProdutosPorCategoriaAsync(int id);
     }
 }
+ 

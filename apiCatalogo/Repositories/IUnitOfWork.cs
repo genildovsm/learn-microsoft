@@ -1,11 +1,24 @@
 ﻿namespace apiCatalogo.Repositories
 {
-#pragma warning disable CS1591
+    /// <summary>
+    /// Interface para implementação do padrão Unit of Work
+    /// </summary>
     public interface IUnitOfWork
     {
+        /// <summary>
+        /// 
+        /// </summary>
         IProdutoRepository ProdutoRepository { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         ICategoriaRepository CategoriaRepository { get; }
 
-        void Commit();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task CommitAsync();
     }
 }

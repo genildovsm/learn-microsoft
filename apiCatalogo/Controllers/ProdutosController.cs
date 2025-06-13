@@ -25,9 +25,9 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     [HttpGet("[action]/{id:int:min(1)}")]
     [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    public ActionResult<IEnumerable<Produto>> GetProdutosCategoria(int id)
+    public async Task<ActionResult<IEnumerable<Produto>>> GetProdutosCategoria(int id)
     {
-        var produtos = _uof.ProdutoRepository.GetProdutosPorCategoria(id);
+        var produtos = await _uof.ProdutoRepository.GetProdutosPorCategoriaAsync(id);
 
         if (produtos is null)
         {
@@ -47,10 +47,37 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     /// <param name="produtosParameters">Parâmetros de paginação para produtos</param>
     /// <returns>Retorna os registros usando paginação</returns>
     [HttpGet("pagination", Name = "produtos-pagination")]
-    public ActionResult Get([FromQuery]ProdutosParameters produtosParameters)
+    [ProducesResponseType(typeof(PagedList<Produto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<PagedList<Produto>>> Get([FromQuery]ProdutosParameters produtosParameters)
     {
-        var produtos = _uof.ProdutoRepository.GetProdutos(produtosParameters);
+        var produtos = await _uof.ProdutoRepository.GetProdutosAsync(produtosParameters);
 
+        return ObterProdutos(produtos);
+    }
+
+    /// <summary>
+    /// Obtém uma lista de produtos paginada com base no filtro informado
+    /// </summary>
+    /// <param name="produtosFiltroParameters"></param>
+    /// <returns></returns>
+    [HttpGet("filter/preco/pagination", Name = "FilterPrecoPagination")]
+    [ProducesResponseType(typeof(PagedList<Produto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<PagedList<Produto>>> GetProdutosFilterPreco([FromQuery]ProdutosFiltroPreco produtosFiltroParameters)
+    {
+        var produtos = await _uof.ProdutoRepository.GetProdutosFiltroPrecoAsync(produtosFiltroParameters);
+
+        return ObterProdutos(produtos);
+    }
+
+    /// <summary>
+    /// Método comum às actions que retornam produtos paginados
+    /// </summary>
+    /// <param name="produtos">Produtos</param>
+    /// <returns></returns>
+    private ActionResult<PagedList<Produto>> ObterProdutos(PagedList<Produto> produtos)
+    {
         var metadata = new
         {
             produtos.TotalCount,
@@ -74,9 +101,9 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     [HttpGet]
     [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult Get()
+    public async Task<ActionResult> Get()
     {
-        var produtos = _uof.ProdutoRepository.GetAll();
+        var produtos = await _uof.ProdutoRepository.GetAllAsync();
 
         if (produtos is null)
         {
@@ -99,9 +126,9 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     [HttpGet("{id:int}", Name = "ObterProdutoPorId")]
     [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult<Produto> GetById(int id)
+    public async Task<ActionResult<Produto>> GetById(int id)
     {
-        Produto? produto = _uof.ProdutoRepository.Get(p => p.Id == id);
+        Produto? produto = await _uof.ProdutoRepository.GetAsync(p => p.Id == id);
 
         return Ok(produto);
     }
@@ -115,13 +142,13 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Produto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult Post(Produto produto)
+    public async Task<ActionResult> Post(Produto produto)
     {
         if (produto is null) return BadRequest();
 
         var novoProduto = _uof.ProdutoRepository.Create(produto);
 
-        _uof.Commit();
+        await _uof.CommitAsync();
 
         return new CreatedAtRouteResult("ObterProdutoPorId", new { id = novoProduto.Id }, novoProduto);
     }
@@ -140,13 +167,13 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     [HttpPut("{id:int:min(1)}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Produto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Produto> Put(int id, Produto produto)
+    public async Task<ActionResult<Produto>> Put(int id, Produto produto)
     {
         produto.Id = id;
 
         var produtoAtualizado = _uof.ProdutoRepository.Update(produto);
 
-        _uof.Commit();
+        await _uof.CommitAsync();
 
         return Ok(produtoAtualizado);
     }
@@ -165,9 +192,9 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(String))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(String))]
-    public ActionResult Put(int id)
+    public async Task<ActionResult> Put(int id)
     {
-        var produto = _uof.ProdutoRepository.Get(p =>  p.Id == id);
+        var produto = await _uof.ProdutoRepository.GetAsync(p => p.Id == id);
 
         if (produto is null)
         {
@@ -180,7 +207,7 @@ public class ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> log
 
         _uof.ProdutoRepository.Delete(produto);
 
-        _uof.Commit();
+        await _uof.CommitAsync();
 
         return NoContent();
     }

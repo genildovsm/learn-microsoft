@@ -9,10 +9,17 @@ namespace apiCatalogo.Repositories
     public interface ICategoriaRepository : IRepository<Categoria>
     {
         /// <summary>
-        /// 
+        /// Obtém uma lista paginada de categorias
         /// </summary>
-        /// <param name="categoriasParams"></param>
+        /// <param name="categoriasParams">Parâmetros</param>
         /// <returns></returns>
-        PagedList<Categoria> GetCategorias (CategoriasParameters categoriasParams);  
+        Task<PagedList<Categoria>> GetCategoriasAsync (CategoriasParameters categoriasParams);
+
+        /// <summary>
+        /// Obtém uma lista paginada de categorias com base no filtro
+        /// </summary>
+        /// <param name="categoriasParams">Parâmetros</param>
+        /// <returns></returns>
+        Task<PagedList<Categoria>> GetCategoriasFiltroNomeAsync (CategoriasFiltroNome categoriasParams);
     }
 }

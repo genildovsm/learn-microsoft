@@ -24,13 +24,13 @@ namespace apiCatalogo.Repositories
         /// <summary>
         /// Obter uma lista de todos os registros da entidade genérica
         /// </summary>
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
 
         /// <summary>
         /// Obter um registro da entidade genérica correspondente à expressão lambda
         /// </summary>
         /// <param name="predicado">Função lâmbda</param>
-        T? Get(Expression<Func<T, bool>> predicado);
+        Task<T?> GetAsync(Expression<Func<T, bool>> predicado); 
 
         /// <summary>
         /// Cria um novo registro na entidade genérica
