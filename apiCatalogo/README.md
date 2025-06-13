@@ -45,3 +45,11 @@ database-update
 ~~~
 
 + [Data Annotations para sobreescrever as convenções do EF Core](Documentacao/convencoes-do-entity-framework-core.md)
+
+## Roteiro de testes com xUnit - Testes de unidade
+
+- Incluir o projeto de testes de unidade **ApiCatalogo.Tests** no projeto **APICatalogo** usando o template **xUnit Test Project**.
+- Incluir no projeto de testes o pacote nuget **FluentAssertions**.
+- Incluir uma referência ao projeto **APICatalogo** no projeto de testes.
+- Criar no projeto de testes a classe **ProdutosUnitTestController** e configurar o ambiente para testar os endpoints do controlador **ProdutosController** da **APICatalogo.**
+- Criar as classes para testar os endpoints Get, Post, Put e Delete que implementam a interface **IClassFixture<ProdutosUnitTestController>**.
