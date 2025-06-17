@@ -4,8 +4,6 @@ using apiCatalogo.Models;
 using apiCatalogo.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.Drawing;
-using System.Runtime.Intrinsics.X86;
 
 namespace TestApiCatalogo
 {
