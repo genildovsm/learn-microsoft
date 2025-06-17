@@ -7,9 +7,11 @@ namespace apiCatalogo.Repositories
     ///
     public sealed class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {        
-        private readonly ApiCatalogoDbContext _context;
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public ProdutoRepository(ApiCatalogoDbContext context) : base(context)
         {
         }

@@ -17,16 +17,13 @@ namespace apiCatalogo.Controllers;
 public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uof;
-    private readonly ILogger<CategoriasController> _logger;
         
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="logger"></param>
     /// <param name="uof"></param>
-    public CategoriasController(ILogger<CategoriasController> logger, IUnitOfWork uof)
-    {
-        _logger = logger;
+    public CategoriasController(IUnitOfWork uof)
+    {        
         _uof = uof;
     }
 
@@ -35,10 +32,10 @@ public class CategoriasController : ControllerBase
     /// </summary>
     /// <response code="200">A consulta encontrou registros</response>
     /// <response code="204">A consulta não encontrou registros</response>
-    [HttpGet("ObterCategoriaProdutos")]
-    [ProducesResponseType(typeof(IEnumerable<CategoriaDTO>), StatusCodes.Status200OK)]
+    [HttpGet("[action]")]
+    [ProducesResponseType(typeof(IList<CategoriaDTO>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<IEnumerable<CategoriaDTO>>> Get()
+    public async Task<ActionResult<IList<CategoriaDTO>>> ObterCategoriaProdutos()
     {
         var categorias = await _uof.CategoriaRepository.GetAllAsync();
         var categoriasDTO = categorias.ToCategoriaDTOList();
@@ -108,9 +105,6 @@ public class CategoriasController : ControllerBase
         if (categoria is null)
         {
             string message = $"Categoria com id={id} não encontrada";
-
-            _logger.LogWarning(message);
-
             return NotFound(message);
         }
 

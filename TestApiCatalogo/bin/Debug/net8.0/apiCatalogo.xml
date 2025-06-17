@@ -1,0 +1,978 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>apiCatalogo</name>
+    </assembly>
+    <members>
+        <member name="T:apiCatalogo.Context.ApiCatalogoDbContext">
+            <summary>
+            Classe de configuração do contexto
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:apiCatalogo.Context.ApiCatalogoDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{apiCatalogo.Context.ApiCatalogoDbContext})">
+            <summary>
+            Classe de configuração do contexto
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:apiCatalogo.Context.ApiCatalogoDbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configuração das classes de mapeamento no contexto
+            </summary>
+            <param name="modelBuilder"></param>
+        </member>
+        <member name="P:apiCatalogo.Context.ApiCatalogoDbContext.Categorias">
+            <summary>
+            Configuração da entidade Categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Context.ApiCatalogoDbContext.Produtos">
+            <summary>
+            Configuração da entidade Produto
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Context.Mapping.CategoriaMapping">
+            <summary>
+            Classe de mapeamento
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Context.Mapping.CategoriaMapping.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{apiCatalogo.Models.Categoria})">
+            <summary>
+            Mapeamento dos atributos da entidade Categoria
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="T:apiCatalogo.Context.Mapping.ProdutoMapping">
+            <summary>
+            Classe de mapeamento
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Context.Mapping.ProdutoMapping.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{apiCatalogo.Models.Produto})">
+            <summary>
+            Mapeamento dos atributos da entidade Produto
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="T:apiCatalogo.Controllers.CategoriasController">
+            <summary>
+            Controlador de categorias
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.#ctor(apiCatalogo.Repositories.IUnitOfWork)">
+            <summary>
+            
+            </summary>
+            <param name="uof"></param>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.ObterCategoriaProdutos">
+            <summary>
+            Obtém todas as categorias e seus produtos relacionados
+            </summary>
+            <response code="200">A consulta encontrou registros</response>
+            <response code="204">A consulta não encontrou registros</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.Get(apiCatalogo.Pagination.CategoriasParameters)">
+            <summary>
+            Categorias paginadas
+            </summary>
+            <param name="categoriasParameters">Parâmetros de paginação</param>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.GetCategoriasFiltradas(apiCatalogo.Pagination.CategoriasFiltroNome)">
+            <summary>
+            
+            </summary>
+            <param name="categoriasFiltro"></param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.Get(System.Int32)">
+            <summary>
+            Obtém a categoria por id
+            </summary>
+            <param name="id">Identificador da categoria</param>
+            <response code="200">Categoria encontrada</response>
+            <response code="404">Nenhum registro encontrado</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.Post(apiCatalogo.DTOs.CategoriaRequestDTO)">
+            <summary>
+            Cria uma categoria
+            </summary>
+            <param name="categoriaRequestDTO">Modelo de entrada para categoria</param>    
+            <response code="201">Categoria cadastrada</response>
+            <response code="400">Categoria não informada</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.Put(System.Int32,apiCatalogo.DTOs.CategoriaRequestDTO)">
+            <summary>
+            Atualiza os dados da categoria
+            </summary>
+            <param name="id">Id da categoria a ser atualizada</param>
+            <param name="categoriaRequestDTO">Instância do modelo de entrada de categoria</param>    
+            <response code="200">Categoria atualizada</response>
+            <response code="404">Categoria não encontrada</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.Delete(System.Int32)">
+            <summary>
+            Deleta uma categoria
+            </summary>
+            <param name="id">Id da categoria</param>
+            <response code="204">Categoria excluída</response>
+            <response code="404">Categoria não encontrada</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.CategoriasController.UsandoFilters">
+            <summary>
+            Exemplificação do uso de Filters a nível de actions
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Controllers.ProdutosController">
+            <summary>
+            
+            </summary>
+            <param name="uof"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.#ctor(apiCatalogo.Repositories.IUnitOfWork,Microsoft.Extensions.Logging.ILogger{apiCatalogo.Controllers.ProdutosController})">
+            <summary>
+            
+            </summary>
+            <param name="uof"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.GetProdutosCategoria(System.Int32)">
+            <summary>
+            Obter os produtos com base no Id da categoria informada
+            </summary>
+            <param name="id">Id da categoria</param>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.Get(apiCatalogo.Pagination.ProdutosParameters)">
+            <summary>
+            Implementação de paginação
+            </summary>
+            <param name="produtosParameters">Parâmetros de paginação para produtos</param>
+            <returns>Retorna os registros usando paginação</returns>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.GetProdutosFilterPreco(apiCatalogo.Pagination.ProdutosFiltroPreco)">
+            <summary>
+            Obtém uma lista de produtos paginada com base no filtro informado
+            </summary>
+            <param name="produtosFiltroParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.ObterProdutos(apiCatalogo.Pagination.PagedList{apiCatalogo.Models.Produto})">
+            <summary>
+            Método comum às actions que retornam produtos paginados
+            </summary>
+            <param name="produtos">Produtos</param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.Get">
+            <summary>
+            Retorna uma lista de produtos
+            </summary>
+            <response code="200">A consulta retornou resultado</response>
+            <response code="204">Consulta realizada com sucesso mas não retornou resultado</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.GetById(System.Int32)">
+            <summary>
+            Retorna um produto
+            </summary>
+            <param name="id">Identificador do produto</param>
+            <response code="200">A consulta retornou resultado</response>
+            <response code="204">Consulta realizada com sucesso mas não retornou resultado</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.Post(apiCatalogo.Models.Produto)">
+            <summary>
+            Cadastra um produto
+            </summary>
+            <param name="produto">Instância de produto</param>
+            <response code="400">Erro na criação do produto</response>
+            <response code="201">Produto criado com sucesso</response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.Put(System.Int32,apiCatalogo.Models.Produto)">
+            <summary>
+            Atualiza um produto existente no sistema
+            </summary>
+            <param name="id">Identificador do produto</param>
+            <param name="produto">Instância de produto</param> 
+            <response code="200">Produto atualizado com sucesso</response>
+            <response code="400">
+            Retorna em caso de: 
+            - Dados inválidos no modelo
+            - ID do produto não encontrado
+            </response>
+        </member>
+        <member name="M:apiCatalogo.Controllers.ProdutosController.Put(System.Int32)">
+            <summary>
+            Remove um produto existente no sistema
+            </summary>
+            <param name="id">Identificador do produto</param>
+            <response code="204">Produto removido</response>
+            <response code="400">
+            Retorna em caso de: 
+            - Dados enviados são inconsistentes
+            </response>
+            <response code="404">Produto não encontrado</response>
+        </member>
+        <member name="T:apiCatalogo.DTOs.CategoriaDTO">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.DTOs.CategoriaDTO.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaDTO.Id">
+            <summary>
+            Id da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaDTO.Nome">
+            <summary>
+            Nome da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaDTO.ImagemUrl">
+            <summary>
+            URL da imagem da categoria
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.DTOs.CategoriaRequestDTO">
+            <summary>
+            Construtor da classe
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaRequestDTO.Nome">
+            <summary>
+            Nome da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaRequestDTO.ImagemUrl">
+            <summary>
+            URL da imagem da categoria
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.DTOs.CategoriaResponseDTO">
+            <summary>
+            Construtor da classe
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaResponseDTO.Id">
+            <summary>
+            Id da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaResponseDTO.Nome">
+            <summary>
+            Nome da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.DTOs.CategoriaResponseDTO.ImagemUrl">
+            <summary>
+            URL da imagem da categoria
+            </summary>        
+        </member>
+        <member name="T:apiCatalogo.DTOs.Mappings.CategoriaMappingExtensions">
+            <summary>
+            Classe de extensão
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.DTOs.Mappings.CategoriaMappingExtensions.ToCategoriaDTO(apiCatalogo.Models.Categoria)">
+            <summary>
+            Converte a entidade Categoria para CategoriaDTO
+            </summary>
+            <param name="categoria">Instância de Categoria</param>
+            <returns>
+            Retorna uma instância de CategoriaDTO ou nulo
+            </returns>
+        </member>
+        <member name="M:apiCatalogo.DTOs.Mappings.CategoriaMappingExtensions.ToCategoria(apiCatalogo.DTOs.CategoriaRequestDTO,System.Int32)">
+            <summary>
+            Converte CategoriaRequestDTO em Categoria
+            </summary>
+            <param name="categoriaRequestDTO"></param>
+            <param name="id">Id da categoria</param>
+            <returns>Retorna uma instância de categoria</returns>
+        </member>
+        <member name="M:apiCatalogo.DTOs.Mappings.CategoriaMappingExtensions.ToCategoriaResponseDTO(apiCatalogo.Models.Categoria)">
+            <summary>
+            Converte Categoria em CategoriaResponseDTO
+            </summary>
+            <param name="categoria"></param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.DTOs.Mappings.CategoriaMappingExtensions.ToCategoria(apiCatalogo.DTOs.CategoriaDTO)">
+            <summary>
+            Converte CategoriaDTO para entidade Categoria 
+            </summary>
+            <returns>
+            Retorna uma instância da entidade categoria
+            </returns>
+        </member>
+        <member name="M:apiCatalogo.DTOs.Mappings.CategoriaMappingExtensions.ToCategoriaDTOList(System.Collections.Generic.IEnumerable{apiCatalogo.Models.Categoria})">
+            <summary>
+            Converte uma lista de entidade Categoria em uma lista de CategoriaDTO
+            </summary> 
+            <param name="categorias">Lista de entidade Categoria</param>
+            <returns>Retorna uma lista de CategoriaDTO</returns>
+        </member>
+        <member name="T:apiCatalogo.Extensions.ApiExceptionMiddlewareExtensions">
+            <summary>
+            Classe de extenção
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Extensions.ApiExceptionMiddlewareExtensions.ConfigureExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Método de extenção para IApplicationBuilder
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="T:apiCatalogo.Extensions.ServicesColletionExtensions">
+            <summary>
+            Registro dos serviços
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Extensions.ServicesColletionExtensions.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Filters.ApiExceptionFilter">
+            <summary>
+            Filtro de excessão
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Filters.ApiExceptionFilter.#ctor(Microsoft.Extensions.Logging.ILogger{apiCatalogo.Filters.ApiExceptionFilter})">
+            <summary>
+            Contrutor da classe
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Filters.ApiExceptionFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            Executado quando uma exceção não tratada é lançada
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:apiCatalogo.Filters.ApiLoggingFilter">
+            <summary>
+            Filtro para implementação de logs
+            </summary>
+        </member>
+        <member name="F:apiCatalogo.Filters.ApiLoggingFilter._logger">
+            <summary>
+            Instância de ILogger
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Filters.ApiLoggingFilter.#ctor(Microsoft.Extensions.Logging.ILogger{apiCatalogo.Filters.ApiLoggingFilter})">
+            <summary>
+            Construtor da classe
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:apiCatalogo.Filters.ApiLoggingFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            Método executado após a action
+            </summary>
+            <param name="context"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:apiCatalogo.Filters.ApiLoggingFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            Método executado antes da action
+            </summary>
+            <param name="context"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:apiCatalogo.Logging.CustomLogger">
+            <summary>
+            Log customizado
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLogger.#ctor(System.String,apiCatalogo.Logging.CustomLoggerProviderConfig)">
+            <summary>
+            Contrutor da classe
+            </summary>
+            <param name="name">Nome da classe ou componente que fará uso do log</param>
+            <param name="config">Configuração específica para esse log</param>
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLogger.BeginScope``1(``0)">
+            <summary>
+            Permite criar um escopo para as mensagens de logs (não será utilizado)
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLogger.IsEnabled(Microsoft.Extensions.Logging.LogLevel)">
+            <summary>
+            Verifica se o nível de log está habilitado com base na configuração
+            </summary>        
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLogger.Log``1(Microsoft.Extensions.Logging.LogLevel,Microsoft.Extensions.Logging.EventId,``0,System.Exception,System.Func{``0,System.Exception,System.String})">
+            <summary>
+            Registra a mensagem de log
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Logging.CustomLoggerProvider">
+            <summary>
+            Provedor de log
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLoggerProvider.#ctor(apiCatalogo.Logging.CustomLoggerProviderConfig)">
+            <summary>
+            Construtor da classe
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLoggerProvider.CreateLogger(System.String)">
+            <summary>
+            Cria o log
+            </summary>
+            <param name="categoryName"></param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:apiCatalogo.Logging.CustomLoggerProvider.Dispose">
+            <summary>
+            Liberar recursos
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Logging.CustomLoggerProviderConfig">
+            <summary>
+            Configuração do provedor de logs
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Logging.CustomLoggerProviderConfig.LogLevel">
+            <summary>
+            Define o nível mínimo de log a ser registrado
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Logging.CustomLoggerProviderConfig.EventId">
+            <summary>
+            Define o ID do evento de log
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Middlewares.GlobalExceptionMiddleware">
+            <summary>
+            Middleware para manipulação de exceções
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Middlewares.GlobalExceptionMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{apiCatalogo.Middlewares.GlobalExceptionMiddleware})">
+            <summary>
+            Construtor da classe
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Middlewares.GlobalExceptionMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Migrations.initial_migration">
+            <inheritdoc />
+        </member>
+        <member name="M:apiCatalogo.Migrations.initial_migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:apiCatalogo.Migrations.initial_migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:apiCatalogo.Migrations.initial_migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:apiCatalogo.Migrations.normalizacao_dos_atributos">
+            <inheritdoc />
+        </member>
+        <member name="M:apiCatalogo.Migrations.normalizacao_dos_atributos.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:apiCatalogo.Migrations.normalizacao_dos_atributos.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:apiCatalogo.Migrations.normalizacao_dos_atributos.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:apiCatalogo.Models.Categoria">
+            <summary>
+            Entidade Categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Categoria.Id">
+            <summary>
+            Id da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Categoria.Nome">
+            <summary>
+            Nome da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Categoria.ImagemUrl">
+            <summary>
+            URL da imagem da categoria
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Categoria.Produtos">
+            <summary>
+            Propriedade de navegação
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Models.ErrorDetails">
+            <summary>
+            Detalhamento de erro
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.ErrorDetails.StatusCode">
+            <summary>
+            Código de status
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.ErrorDetails.Message">
+            <summary>
+            Mensagem
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.ErrorDetails.Trace">
+            <summary>
+            Rastreamento
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Models.ErrorDetails.ToString">
+            <summary>
+            Converter para string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Models.Produto">
+            <summary>
+            Entidade Produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.Id">
+            <summary>
+            Id do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.Nome">
+            <summary>
+            Nome do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.Descricao">
+            <summary>
+            Descricao do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.Valor">
+            <summary>
+            Valor do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.ImagemUrl">
+            <summary>
+            URL da imagem do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.QuantidadeEstoque">
+            <summary>
+            Quantidade em estoque do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.DataCadastro">
+            <summary>
+            Data de cadastro do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.CategoriaId">
+            <summary>
+            Id da categoria do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Models.Produto.Categoria">
+            <summary>
+            Propriedade de navegação
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Pagination.CategoriasFiltroNome">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.CategoriasFiltroNome.Nome">
+            <summary>
+            Nome da categoria
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Pagination.CategoriasParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Pagination.PagedList`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T">Classe genérica</typeparam>
+        </member>
+        <member name="P:apiCatalogo.Pagination.PagedList`1.CurrentPage">
+            <summary>
+            Página atual
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.PagedList`1.TotalPages">
+            <summary>
+            Total de páginas
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.PagedList`1.PageSize">
+            <summary>
+            Número de registros por página
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.PagedList`1.TotalCount">
+            <summary>
+            Quantidade de registros retornados
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.PagedList`1.HasPrevious">
+            <summary>
+            Verifica se existe página anterior
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.PagedList`1.HasNext">
+            <summary>
+            Verifica se existe próxima página
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Pagination.PagedList`1.#ctor(System.Collections.Generic.List{`0},System.Int32,System.Int32,System.Int32)">
+            <param name="items">Dados retornados pela consulta</param>
+            <param name="count">Quantidade de registros</param>
+            <param name="pageNumber">Número da página atual</param>
+            <param name="pageSize">Quantidade de registros por página</param>
+        </member>
+        <member name="M:apiCatalogo.Pagination.PagedList`1.ToPagedList(System.Linq.IQueryable{`0},System.Int32,System.Int32)">
+            <param name="source">Consulta não materializada</param>
+            <param name="pageNumber">Número da página atual</param>
+            <param name="pageSize">Quantidade de registros por página</param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Pagination.ProdutosFiltroPreco">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.ProdutosFiltroPreco.Preco">
+            <summary>
+            Preço do produto
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.ProdutosFiltroPreco.PrecoCriterio">
+            <summary>
+            Ordenação do preço
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Pagination.ProdutosParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Pagination.QueryStringParameters">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:apiCatalogo.Pagination.QueryStringParameters.maxPageSize">
+            <summary>
+            Máximo de registros por página
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.QueryStringParameters.PageNumber">
+            <summary>
+            Número da página
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Pagination.QueryStringParameters.PageSize">
+            <summary>
+            Quantidade de registros por página
+            </summary>
+        </member>
+        <member name="T:apiCatalogo.Repositories.CategoriaRepository">
+            <summary>  
+            Repositório de acesso a dados de Categoria  
+            </summary>  
+            <remarks>  
+            A palavra-chave "base" é usada para acessar membros de classe base   
+            de dentro de uma classe derivada, no caso, o contexto da classe Repository  
+            </remarks>  
+        </member>
+        <member name="M:apiCatalogo.Repositories.CategoriaRepository.#ctor(apiCatalogo.Context.ApiCatalogoDbContext)">
+            <summary>
+            Construtor da classe
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.CategoriaRepository.GetCategoriasAsync(apiCatalogo.Pagination.CategoriasParameters)">
+            <summary>
+            Retorna as categorias paginadas
+            </summary>
+            <param name="categoriasParams">Parâmetros de paginação</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.CategoriaRepository.GetCategoriasFiltroNomeAsync(apiCatalogo.Pagination.CategoriasFiltroNome)">
+            <summary>
+            Retorna as categorias paginadas com base no filtro
+            </summary>
+            <param name="categoriasParams"></param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Repositories.ICategoriaRepository">
+            <summary>
+            Interface de acesso a dados de Categoria
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.ICategoriaRepository.GetCategoriasAsync(apiCatalogo.Pagination.CategoriasParameters)">
+            <summary>
+            Obtém uma lista paginada de categorias
+            </summary>
+            <param name="categoriasParams">Parâmetros</param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.ICategoriaRepository.GetCategoriasFiltroNomeAsync(apiCatalogo.Pagination.CategoriasFiltroNome)">
+            <summary>
+            Obtém uma lista paginada de categorias com base no filtro
+            </summary>
+            <param name="categoriasParams">Parâmetros</param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Repositories.IProdutoRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IProdutoRepository.GetProdutosAsync(apiCatalogo.Pagination.ProdutosParameters)">
+            <summary>
+            Obtém uma lista de produtos paginados
+            </summary>
+            <param name="produtosParams">Parâmetros</param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IProdutoRepository.GetProdutosFiltroPrecoAsync(apiCatalogo.Pagination.ProdutosFiltroPreco)">
+            <summary>
+            Obtém uma lista paginada de produtos com base no filtro
+            </summary>
+            <param name="produtoFiltroParams">Parâmetros</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IProdutoRepository.GetProdutosPorCategoriaAsync(System.Int32)">
+            <summary>
+            Obtém uma lista de produtos com base no Id da categoria 
+            </summary>
+            <param name="id">Id da categoria</param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Repositories.IRepository`1">
+            <summary>
+            Interface genérica de acesso a dados
+            </summary>
+            <typeparam name="T">Entidade genérica</typeparam>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.Any(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Verifica se existe na entidade genérica e retorna um booleano
+            </summary>
+            <param name="predicado"></param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.Find(System.Int32)">
+            <summary>
+            Obtém um registro da entidade genérica com base na chave primária
+            </summary>
+            <param name="id">Chave primária de T</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.GetAllAsync">
+            <summary>
+            Obter uma lista de todos os registros da entidade genérica
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.GetAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Obter um registro da entidade genérica correspondente à expressão lambda
+            </summary>
+            <param name="predicado">Função lâmbda</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.Create(`0)">
+            <summary>
+            Cria um novo registro na entidade genérica
+            </summary>
+            <param name="entity">Entidade genérica</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.Update(`0)">
+            <summary>
+            Atualiza um registro na entidade genérica
+            </summary>
+            <param name="entity">Entidade genérica</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IRepository`1.Delete(`0)">
+            <summary>
+            Exclui um registro da entidade genérica
+            </summary>
+            <param name="entity">Entidade genérica</param>
+        </member>
+        <member name="T:apiCatalogo.Repositories.IUnitOfWork">
+            <summary>
+            Interface para implementação do padrão Unit of Work
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Repositories.IUnitOfWork.ProdutoRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Repositories.IUnitOfWork.CategoriaRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.IUnitOfWork.CommitAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Repositories.ProdutoRepository">
+            
+        </member>
+        <member name="M:apiCatalogo.Repositories.ProdutoRepository.#ctor(apiCatalogo.Context.ApiCatalogoDbContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.ProdutoRepository.GetProdutosAsync(apiCatalogo.Pagination.ProdutosParameters)">
+            <summary>
+            Obtém uma lista paginada de produtos
+            </summary>
+            <param name="produtosParams">Parâmetros</param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.ProdutoRepository.GetProdutosFiltroPrecoAsync(apiCatalogo.Pagination.ProdutosFiltroPreco)">
+            <summary>
+            Obtém uma lista de produtos com base no filtro
+            </summary>
+            <param name="produtoFiltroParams">Parãmetros</param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.ProdutoRepository.GetProdutosPorCategoriaAsync(System.Int32)">
+            <summary>
+            Obtém uma lista de produtos com base no Id da categoria
+            </summary>
+            <param name="id">Id do produto</param>
+            <returns></returns>
+        </member>
+        <member name="T:apiCatalogo.Repositories.Repository`1">
+            <summary>
+            Repositório genérico de acesso a dados
+            </summary>
+            <typeparam name="T">Classe genérica</typeparam>
+            <remarks>
+            Construtor da classe
+            </remarks>
+            <param name="context">Instância do contexto</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.#ctor(apiCatalogo.Context.ApiCatalogoDbContext)">
+            <summary>
+            Repositório genérico de acesso a dados
+            </summary>
+            <typeparam name="T">Classe genérica</typeparam>
+            <remarks>
+            Construtor da classe
+            </remarks>
+            <param name="context">Instância do contexto</param>
+        </member>
+        <member name="F:apiCatalogo.Repositories.Repository`1._context">
+            <summary>
+            Instância do contexto de acesso a dados
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.Any(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Verifica se existe e retorna um booleano
+            </summary>
+            <param name="predicado">Expressão lambda</param>
+            <returns>Retorna um valor booleano</returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.Create(`0)">
+            <summary>
+            Adiciona um novo registro na entidade genérica
+            </summary>
+            <param name="entity">Entidade genérica</param>
+            <returns>Retorna uma instância da classe genérica criada</returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.Delete(`0)">
+            <summary>
+            Deleta um registro da entidade genérica
+            </summary>
+            <param name="entity">Entidade genérica</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.Find(System.Int32)">
+            <summary>
+            Obtém um registro da entidade genérica com base na chave primária
+            </summary>
+            <param name="id">Chave primária da entidade genérica</param>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.GetAsync(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Obtém o primeiro resultado que corresponde à expressão lambda fornecida
+            </summary>
+            <param name="predicado">Expressão lambda</param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.GetAllAsync">
+            <summary>
+            Obtém todos os registros da entidade genérica
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.Repository`1.Update(`0)">
+            <summary>
+            Atualiza um registro da entidade genérica
+            </summary>
+            <param name="entity">Entidade genérica</param>
+        </member>
+        <member name="T:apiCatalogo.Repositories.UnitOfWork">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:apiCatalogo.Repositories.UnitOfWork.#ctor(apiCatalogo.Context.ApiCatalogoDbContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="F:apiCatalogo.Repositories.UnitOfWork._context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Repositories.UnitOfWork.ProdutoRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:apiCatalogo.Repositories.UnitOfWork.CategoriaRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:apiCatalogo.Repositories.UnitOfWork.CommitAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:apiCatalogo.Repositories.UnitOfWork.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -81,17 +81,17 @@ namespace apiCatalogo.DTOs.Mappings
         /// </summary> 
         /// <param name="categorias">Lista de entidade Categoria</param>
         /// <returns>Retorna uma lista de CategoriaDTO</returns>
-        public static IEnumerable<CategoriaDTO> ToCategoriaDTOList(this IEnumerable<Categoria> categorias)
+        public static IList<CategoriaDTO> ToCategoriaDTOList(this IEnumerable<Categoria> categorias)
         {
             if (categorias is null || !categorias.Any()) return [];
 
-            return categorias.Select(c => new CategoriaDTO
+            return [.. categorias.Select(c => new CategoriaDTO
             {
                 Id = c.Id,
                 Nome = c.Nome,
                 ImagemUrl = c.ImagemUrl
 
-            }).ToList();
+            })];
         }
     }
 }
