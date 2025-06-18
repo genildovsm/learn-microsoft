@@ -1,4 +1,3 @@
-using apiCatalogo.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace apiCatalogo.Context;
@@ -15,18 +14,7 @@ public class ApiCatalogoDbContext(DbContextOptions<ApiCatalogoDbContext> options
     /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApiCatalogoDbContext).Assembly);
     }
 
-    /// <summary>
-    /// Configuração da entidade Categoria
-    /// </summary>
-    public DbSet<Categoria> Categorias { get; set; }
-
-    /// <summary>
-    /// Configuração da entidade Produto
-    /// </summary>
-    public DbSet<Produto> Produtos { get; set; }
 }

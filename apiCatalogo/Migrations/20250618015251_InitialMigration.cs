@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace apiCatalogo.Migrations
 {
     /// <inheritdoc />
-    public partial class initial_migration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,8 +25,10 @@ namespace apiCatalogo.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     nmCategoria = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    imUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    imUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    createdAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,49 +47,49 @@ namespace apiCatalogo.Migrations
                     dsProduto = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     vlProduto = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    imUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
+                    imUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     qtEstoque = table.Column<int>(type: "int", nullable: false),
-                    dtCadastro = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2025, 5, 15, 0, 58, 11, 443, DateTimeKind.Local).AddTicks(3244)),
+                    dtCadastro = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: new DateTime(2025, 6, 17, 22, 52, 50, 213, DateTimeKind.Local).AddTicks(5776)),
                     categoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbProdutos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Categorias_CategoriasId",
+                        name: "fk_categorias_categoriasId",
                         column: x => x.categoriaId,
                         principalTable: "tbCategorias",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
                 table: "tbCategorias",
-                columns: new[] { "Id", "imUrl", "nmCategoria" },
+                columns: new[] { "Id", "createdAt", "imUrl", "nmCategoria", "updatedAt" },
                 values: new object[,]
                 {
-                    { 1, "cosmeticos.jpg", "Cosméticos" },
-                    { 2, "eletronicos.jpg", "Eletrônicos" },
-                    { 3, "informatica.jpg", "Informática" },
-                    { 4, "moveis.jpg", "Móveis" },
-                    { 5, "eletrodomesticos.jpg", "Eletrodomésticos" },
-                    { 6, "bebidas.jpg", "Bebidas" },
-                    { 7, "alimentos.jpg", "Alimentos" },
-                    { 8, "limpeza.jpg", "Limpeza" },
-                    { 9, "brinquedos.jpg", "Brinquedos" },
-                    { 10, "livros.jpg", "Livros" },
-                    { 11, "papelaria.jpg", "Papelaria" },
-                    { 12, "ferramentas.jpg", "Ferramentas" },
-                    { 13, "esportes.jpg", "Esportes" },
-                    { 14, "moda-masculina.jpg", "Moda Masculina" },
-                    { 15, "moda-feminina.jpg", "Moda Feminina" },
-                    { 16, "calcados.jpg", "Calçados" },
-                    { 17, "acessorios.jpg", "Acessórios" },
-                    { 18, "jardim.jpg", "Jardim" },
-                    { 19, "automotivo.jpg", "Automotivo" },
-                    { 20, "petshop.jpg", "Pet Shop" }
+                    { 1, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6570), "cosmeticos.jpg", "Cosméticos", null },
+                    { 2, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6602), "eletronicos.jpg", "Eletrônicos", null },
+                    { 3, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6606), "informatica.jpg", "Informática", null },
+                    { 4, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6608), "moveis.jpg", "Móveis", null },
+                    { 5, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6611), "eletrodomesticos.jpg", "Eletrodomésticos", null },
+                    { 6, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6613), "bebidas.jpg", "Bebidas", null },
+                    { 7, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6615), "alimentos.jpg", "Alimentos", null },
+                    { 8, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6617), "limpeza.jpg", "Limpeza", null },
+                    { 9, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6619), "brinquedos.jpg", "Brinquedos", null },
+                    { 10, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6621), "livros.jpg", "Livros", null },
+                    { 11, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6624), "papelaria.jpg", "Papelaria", null },
+                    { 12, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6626), "ferramentas.jpg", "Ferramentas", null },
+                    { 13, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6628), "esportes.jpg", "Esportes", null },
+                    { 14, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6630), "moda-masculina.jpg", "Moda Masculina", null },
+                    { 15, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6632), "moda-feminina.jpg", "Moda Feminina", null },
+                    { 16, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6634), "calcados.jpg", "Calçados", null },
+                    { 17, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6636), "acessorios.jpg", "Acessórios", null },
+                    { 18, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6638), "jardim.jpg", "Jardim", null },
+                    { 19, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6640), "automotivo.jpg", "Automotivo", null },
+                    { 20, new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6642), "petshop.jpg", "Pet Shop", null }
                 });
 
             migrationBuilder.InsertData(
@@ -198,21 +200,26 @@ namespace apiCatalogo.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CATEGORIAS_NOME",
+                name: "ix_categorias_nome",
                 table: "tbCategorias",
-                column: "nmCategoria",
+                column: "nmCategoria");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_produtos_categoriaId",
+                table: "tbProdutos",
+                column: "categoriaId");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_produtos_descricao",
+                table: "tbProdutos",
+                column: "dsProduto",
                 filter: "[nome] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PRODUTOS_NOME",
+                name: "ix_produtos_nome",
                 table: "tbProdutos",
                 column: "nmProduto",
                 filter: "[nome] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbProdutos_categoriaId",
-                table: "tbProdutos",
-                column: "categoriaId");
         }
 
         /// <inheritdoc />

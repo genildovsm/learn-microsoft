@@ -60,6 +60,8 @@ public class ProdutoMapping : IEntityTypeConfiguration<Produto>
         b.HasIndex(x => x.Descricao, "ix_produtos_descricao")
         .HasFilter("[nome] IS NOT NULL");
 
+        b.HasIndex(x => x.CategoriaId, "ix_produtos_categoriaId");
+
         #region Foreigh Keys
 
         b.HasOne(x => x.Categoria)

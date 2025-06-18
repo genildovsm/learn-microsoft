@@ -17,7 +17,7 @@ namespace apiCatalogo.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.16")
+                .HasAnnotation("ProductVersion", "8.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -30,7 +30,14 @@ namespace apiCatalogo.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("createdAt")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
                     b.Property<string>("ImagemUrl")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar")
                         .HasColumnName("imUrl");
@@ -41,10 +48,13 @@ namespace apiCatalogo.Migrations
                         .HasColumnType("varchar")
                         .HasColumnName("nmCategoria");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("updatedAt");
+
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Nome" }, "ix_categorias_nome")
-                        .HasFilter("[nome] IS NOT NULL");
+                    b.HasIndex(new[] { "Nome" }, "ix_categorias_nome");
 
                     b.ToTable("tbCategorias", (string)null);
 
@@ -52,120 +62,140 @@ namespace apiCatalogo.Migrations
                         new
                         {
                             Id = 1,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6570),
                             ImagemUrl = "cosmeticos.jpg",
                             Nome = "Cosméticos"
                         },
                         new
                         {
                             Id = 2,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6602),
                             ImagemUrl = "eletronicos.jpg",
                             Nome = "Eletrônicos"
                         },
                         new
                         {
                             Id = 3,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6606),
                             ImagemUrl = "informatica.jpg",
                             Nome = "Informática"
                         },
                         new
                         {
                             Id = 4,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6608),
                             ImagemUrl = "moveis.jpg",
                             Nome = "Móveis"
                         },
                         new
                         {
                             Id = 5,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6611),
                             ImagemUrl = "eletrodomesticos.jpg",
                             Nome = "Eletrodomésticos"
                         },
                         new
                         {
                             Id = 6,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6613),
                             ImagemUrl = "bebidas.jpg",
                             Nome = "Bebidas"
                         },
                         new
                         {
                             Id = 7,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6615),
                             ImagemUrl = "alimentos.jpg",
                             Nome = "Alimentos"
                         },
                         new
                         {
                             Id = 8,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6617),
                             ImagemUrl = "limpeza.jpg",
                             Nome = "Limpeza"
                         },
                         new
                         {
                             Id = 9,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6619),
                             ImagemUrl = "brinquedos.jpg",
                             Nome = "Brinquedos"
                         },
                         new
                         {
                             Id = 10,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6621),
                             ImagemUrl = "livros.jpg",
                             Nome = "Livros"
                         },
                         new
                         {
                             Id = 11,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6624),
                             ImagemUrl = "papelaria.jpg",
                             Nome = "Papelaria"
                         },
                         new
                         {
                             Id = 12,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6626),
                             ImagemUrl = "ferramentas.jpg",
                             Nome = "Ferramentas"
                         },
                         new
                         {
                             Id = 13,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6628),
                             ImagemUrl = "esportes.jpg",
                             Nome = "Esportes"
                         },
                         new
                         {
                             Id = 14,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6630),
                             ImagemUrl = "moda-masculina.jpg",
                             Nome = "Moda Masculina"
                         },
                         new
                         {
                             Id = 15,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6632),
                             ImagemUrl = "moda-feminina.jpg",
                             Nome = "Moda Feminina"
                         },
                         new
                         {
                             Id = 16,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6634),
                             ImagemUrl = "calcados.jpg",
                             Nome = "Calçados"
                         },
                         new
                         {
                             Id = 17,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6636),
                             ImagemUrl = "acessorios.jpg",
                             Nome = "Acessórios"
                         },
                         new
                         {
                             Id = 18,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6638),
                             ImagemUrl = "jardim.jpg",
                             Nome = "Jardim"
                         },
                         new
                         {
                             Id = 19,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6640),
                             ImagemUrl = "automotivo.jpg",
                             Nome = "Automotivo"
                         },
                         new
                         {
                             Id = 20,
+                            CreatedAt = new DateTime(2025, 6, 17, 22, 52, 50, 212, DateTimeKind.Local).AddTicks(6642),
                             ImagemUrl = "petshop.jpg",
                             Nome = "Pet Shop"
                         });
@@ -186,7 +216,7 @@ namespace apiCatalogo.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
-                        .HasDefaultValue(new DateTime(2025, 5, 16, 2, 21, 14, 924, DateTimeKind.Local).AddTicks(7314))
+                        .HasDefaultValue(new DateTime(2025, 6, 17, 22, 52, 50, 213, DateTimeKind.Local).AddTicks(5776))
                         .HasColumnName("dtCadastro");
 
                     b.Property<string>("Descricao")
@@ -217,7 +247,7 @@ namespace apiCatalogo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriaId");
+                    b.HasIndex(new[] { "CategoriaId" }, "ix_produtos_categoriaId");
 
                     b.HasIndex(new[] { "Descricao" }, "ix_produtos_descricao")
                         .HasFilter("[nome] IS NOT NULL");
@@ -1235,7 +1265,7 @@ namespace apiCatalogo.Migrations
                     b.HasOne("apiCatalogo.Models.Categoria", "Categoria")
                         .WithMany("Produtos")
                         .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_categorias_categoriasId");
 

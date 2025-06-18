@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace apiCatalogo.Models;
 
 /// <summary>
@@ -21,6 +19,16 @@ public class Categoria
     /// URL da imagem da categoria
     /// </summary>
     public string ImagemUrl { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Data de criação do registro
+    /// </summary>
+    public DateTime CreatedAt { get; set; }
+
+    /// <summary>
+    /// Data de atualização do registro
+    /// </summary>
+    public DateTime? UpdatedAt { get; set; }
 
     /// <summary>
     /// Propriedade de navegação
