@@ -6,7 +6,7 @@ Embora essa classe seja **Disposable**, usá-la com a instrução **using** não
   
 Outro problema com o HttpClient pode ocorrer quando ela for usada como um objeto *singleton* ou *estático*. Nesse caso, um HttpClient singleton ou estático não respeitará as alterações de DNS. [artigo](http://byterot.blogspot.com/2016/07/singleton-httpclient-dns.html)  
   
->**Solução:** Usar a interface *IHttpClientFactory* e as suas implementações disponíveis a partir do .NET Core 2.1
+>:bulb: **Solução:** Usar a interface *IHttpClientFactory* e as suas implementações disponíveis a partir do .NET Core 2.1
   
 ## HttpClientFactory
 
