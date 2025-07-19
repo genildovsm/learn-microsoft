@@ -42,14 +42,13 @@ namespace apiCatalogo.Repositories
         /// <returns></returns>
         public async Task<PagedList<Categoria>> GetCategoriasFiltroNomeAsync(CategoriasFiltroNome categoriasParams)
         {
-            var categorias = await GetAllAsync();            
+            var categorias = await GetAllAsync();
 
-            if (!string.IsNullOrEmpty(categoriasParams.Nome))
-            {
-                categorias = categorias.Where(c => c.Nome.Contains(categoriasParams.Nome));
-            }
+            IEnumerable<Categoria> enumerable = categorias.Where(
+                c => string.IsNullOrEmpty( categoriasParams.Nome ) || c.Nome.Contains(categoriasParams.Nome)
+                );
 
-            var categoriasFiltradas = PagedList<Categoria>.ToPagedList(categorias.AsQueryable(), categoriasParams.PageNumber, categoriasParams.PageSize);
+            var categoriasFiltradas = PagedList<Categoria>.ToPagedList(enumerable.AsQueryable(), categoriasParams.PageNumber, categoriasParams.PageSize);
 
             return categoriasFiltradas;
         }

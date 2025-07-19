@@ -1,0 +1,4 @@
+Swagger UI no NET9 
+Scalar - Alternativa ao Swagger UI
+
+https://www.youtube.com/watch?v=7JLzGpJSibE
