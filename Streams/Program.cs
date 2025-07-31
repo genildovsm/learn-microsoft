@@ -1,20 +1,26 @@
-﻿using System.IO.Compression;
+﻿using System.Diagnostics;
 using System.Text;
+using Streams.Helpers;
 
 namespace Streams;
 
+/**
+* Tutorias: https://www.youtube.com/watch?v=yDtjevq67cE
+*
+*/
+
 public static class Program
 {
+    private static CancellationTokenSource? _cancellationTokenSource;
 
     public static async Task Main(string[] args)
     {
-        string diretorio = Environment.CurrentDirectory + Path.AltDirectorySeparatorChar;
+        _cancellationTokenSource = new CancellationTokenSource();
 
+        string diretorio = Environment.CurrentDirectory + Path.AltDirectorySeparatorChar;
         string arquivo = diretorio + "exemplo.md";
         string log = diretorio + "registros.log";
         string texto = "Usando FileStream";
-        string arquivoBruto = diretorio + "arquivo-bruto.txt";
-        string arquivoComprimido = diretorio + "arquivo-comprimido.gz";
 
         // Escrever para arquivo
 
@@ -94,15 +100,28 @@ public static class Program
             await writer.WriteLineAsync("Log entry: " + DateTime.Now.ToShortDateString());
         }
 
-        // Compactação de stream
+        // COMPRIMIR ARQUIVOS COM "ZIP"  
 
-        using (var fs = File.OpenRead(arquivoBruto)) {
-            using (var fsCompressedFile = File.Create(arquivoComprimido)) {
-                using (var gzip = new GZipStream(fsCompressedFile, CompressionMode.Compress)) {
-                    await fs.CopyToAsync(gzip);
-                }
-            }
+
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+
+        try
+        {
+            // _cancellationTokenSource.Cancel();
+
+            await ZipHelper.ComprimirParaZip("arquivo-bruto.txt", _cancellationTokenSource.Token);
+
+            Console.WriteLine("ARQUIVO COMPACTADO COM SUCESSO");
         }
+        catch
+        {
+            Console.WriteLine("COMPACTAÇÃO FOI CANCELADA");
+            Console.WriteLine($"TEMPO DECORRIDO: {stopwatch.Elapsed}");
+        }
+
+
+
     }
 
 }
