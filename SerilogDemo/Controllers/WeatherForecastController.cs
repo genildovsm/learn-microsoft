@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace SerilogDemo.Controllers;
 
@@ -24,7 +26,7 @@ public class WeatherForecastController : ControllerBase
         }
         catch(Exception e)
         {
-            _logger.LogError("{@Message}", e.StackTrace);
+            _logger.LogError(e,"Algo deu errado por aqui: {@CustomCode}.",5);
 
             return BadRequest(); 
         }
