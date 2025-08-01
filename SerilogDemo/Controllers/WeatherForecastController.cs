@@ -19,18 +19,14 @@ public class WeatherForecastController : ControllerBase
     {
         try
         {
-            return Ok();
+            throw new ArgumentNullException();            
 
         }
-        catch(Exception ex)
+        catch(Exception e)
         {
-            _logger.LogError(
-                "Ocorreu um erro inesperado: {@RequestName}, {@Error}, {@DateTimeUtc}", 
-                Url.RouteUrl("GetWeatherForecast"),
-                ex.StackTrace, 
-                DateTime.Now);
+            _logger.LogError("{@Message}", e.StackTrace);
 
-            return BadRequest();
+            return BadRequest(); 
         }
        
     }
