@@ -1,0 +1,602 @@
+[
+  {
+    "id": 1,
+    "categoria": "Eletrônicos",
+    "preco": 1299.99,
+    "descricao": "Smartphone com tela de 6.5 polegadas e 128GB de armazenamento"
+  },
+  {
+    "id": 2,
+    "categoria": "Eletrodomésticos",
+    "preco": 899.50,
+    "descricao": "Geladeira frost-free com capacidade para 350 litros"
+  },
+  {
+    "id": 3,
+    "categoria": "Informática",
+    "preco": 3499.00,
+    "descricao": "Notebook com processador i7 e 16GB de RAM"
+  },
+  {
+    "id": 4,
+    "categoria": "Móveis",
+    "preco": 599.90,
+    "descricao": "Sofá de 3 lugares em couro sintético"
+  },
+  {
+    "id": 5,
+    "categoria": "Cama, mesa e banho",
+    "preco": 129.90,
+    "descricao": "Jogo de cama queen size com 4 peças"
+  },
+  {
+    "id": 6,
+    "categoria": "Eletrônicos",
+    "preco": 249.99,
+    "descricao": "Fone de ouvido sem fio com cancelamento de ruído"
+  },
+  {
+    "id": 7,
+    "categoria": "Esportes",
+    "preco": 199.90,
+    "descricao": "Bicicleta ergométrica com 8 níveis de resistência"
+  },
+  {
+    "id": 8,
+    "categoria": "Beleza",
+    "preco": 89.90,
+    "descricao": "Secador de cabelo profissional 2200W"
+  },
+  {
+    "id": 9,
+    "categoria": "Alimentos",
+    "preco": 12.50,
+    "descricao": "Café em grãos premium 500g"
+  },
+  {
+    "id": 10,
+    "categoria": "Bebidas",
+    "preco": 29.90,
+    "descricao": "Vinho tinto seco garrafa 750ml"
+  },
+  {
+    "id": 11,
+    "categoria": "Eletrônicos",
+    "preco": 1599.00,
+    "descricao": "Smart TV LED 50 polegadas 4K"
+  },
+  {
+    "id": 12,
+    "categoria": "Informática",
+    "preco": 199.00,
+    "descricao": "Mouse sem fio com design ergonômico"
+  },
+  {
+    "id": 13,
+    "categoria": "Eletrodomésticos",
+    "preco": 499.00,
+    "descricao": "Máquina de lavar roupa com capacidade para 9kg"
+  },
+  {
+    "id": 14,
+    "categoria": "Móveis",
+    "preco": 399.00,
+    "descricao": "Mesa de jantar com 4 cadeiras"
+  },
+  {
+    "id": 15,
+    "categoria": "Cama, mesa e banho",
+    "preco": 79.90,
+    "descricao": "Toalha de banho premium tamanho grande"
+  },
+  {
+    "id": 16,
+    "categoria": "Esportes",
+    "preco": 149.90,
+    "descricao": "Tênis de corrida com amortecimento"
+  },
+  {
+    "id": 17,
+    "categoria": "Beleza",
+    "preco": 59.90,
+    "descricao": "Kit maquiagem com 12 sombras e pincéis"
+  },
+  {
+    "id": 18,
+    "categoria": "Alimentos",
+    "preco": 8.90,
+    "descricao": "Azeite de oliva extra virgem 500ml"
+  },
+  {
+    "id": 19,
+    "categoria": "Bebidas",
+    "preco": 6.50,
+    "descricao": "Cerveja artesanal lata 473ml"
+  },
+  {
+    "id": 20,
+    "categoria": "Eletrônicos",
+    "preco": 349.90,
+    "descricao": "Caixa de som Bluetooth à prova d'água"
+  },
+  {
+    "id": 21,
+    "categoria": "Informática",
+    "preco": 899.00,
+    "descricao": "Tablet com tela de 10 polegadas e 64GB"
+  },
+  {
+    "id": 22,
+    "categoria": "Eletrodomésticos",
+    "preco": 299.00,
+    "descricao": "Forno elétrico com capacidade para 30L"
+  },
+  {
+    "id": 23,
+    "categoria": "Móveis",
+    "preco": 249.90,
+    "descricao": "Cabeceira de cama queen size"
+  },
+  {
+    "id": 24,
+    "categoria": "Cama, mesa e banho",
+    "preco": 45.90,
+    "descricao": "Travesseiro ortopédico de espuma viscoelástica"
+  },
+  {
+    "id": 25,
+    "categoria": "Esportes",
+    "preco": 89.90,
+    "descricao": "Halteres ajustáveis de 5kg a 20kg"
+  },
+  {
+    "id": 26,
+    "categoria": "Beleza",
+    "preco": 39.90,
+    "descricao": "Creme facial hidratante com vitamina E"
+  },
+  {
+    "id": 27,
+    "categoria": "Alimentos",
+    "preco": 15.90,
+    "descricao": "Chocolate belga 70% cacau 200g"
+  },
+  {
+    "id": 28,
+    "categoria": "Bebidas",
+    "preco": 4.90,
+    "descricao": "Água mineral com gás 1,5L"
+  },
+  {
+    "id": 29,
+    "categoria": "Eletrônicos",
+    "preco": 199.00,
+    "descricao": "Smartwatch com monitor de frequência cardíaca"
+  },
+  {
+    "id": 30,
+    "categoria": "Informática",
+    "preco": 149.00,
+    "descricao": "Teclado mecânico para gamers"
+  },
+  {
+    "id": 31,
+    "categoria": "Eletrodomésticos",
+    "preco": 159.90,
+    "descricao": "Ventilador de torre com controle remoto"
+  },
+  {
+    "id": 32,
+    "categoria": "Móveis",
+    "preco": 179.90,
+    "descricao": "Estante de livros em madeira 5 prateleiras"
+  },
+  {
+    "id": 33,
+    "categoria": "Cama, mesa e banho",
+    "preco": 29.90,
+    "descricao": "Jogo de toalhas de rosto 4 unidades"
+  },
+  {
+    "id": 34,
+    "categoria": "Esportes",
+    "preco": 119.90,
+    "descricao": "Esteira ergométrica dobrável"
+  },
+  {
+    "id": 35,
+    "categoria": "Beleza",
+    "preco": 69.90,
+    "descricao": "Barbeador elétrico à prova d'água"
+  },
+  {
+    "id": 36,
+    "categoria": "Alimentos",
+    "preco": 22.90,
+    "descricao": "Queijo parmesão ralado 200g"
+  },
+  {
+    "id": 37,
+    "categoria": "Bebidas",
+    "preco": 19.90,
+    "descricao": "Whisky nacional garrafa 1L"
+  },
+  {
+    "id": 38,
+    "categoria": "Eletrônicos",
+    "preco": 899.00,
+    "descricao": "Console de videogame portátil"
+  },
+  {
+    "id": 39,
+    "categoria": "Informática",
+    "preco": 499.00,
+    "descricao": "Monitor LED 24 polegadas Full HD"
+  },
+  {
+    "id": 40,
+    "categoria": "Eletrodomésticos",
+    "preco": 399.00,
+    "descricao": "Cooktop por indução de 4 bocas"
+  },
+  {
+    "id": 41,
+    "categoria": "Móveis",
+    "preco": 349.90,
+    "descricao": "Guarda-roupa casal 6 portas"
+  },
+  {
+    "id": 42,
+    "categoria": "Cama, mesa e banho",
+    "preco": 89.90,
+    "descricao": "Edredom queen size antialérgico"
+  },
+  {
+    "id": 43,
+    "categoria": "Esportes",
+    "preco": 59.90,
+    "descricao": "Bola de futebol oficial tamanho 5"
+  },
+  {
+    "id": 44,
+    "categoria": "Beleza",
+    "preco": 49.90,
+    "descricao": "Secador de cabelo com ionização"
+  },
+  {
+    "id": 45,
+    "categoria": "Alimentos",
+    "preco": 18.90,
+    "descricao": "Sal gourmet flor de sal 250g"
+  },
+  {
+    "id": 46,
+    "categoria": "Bebidas",
+    "preco": 24.90,
+    "descricao": "Espumante nacional brut garrafa 750ml"
+  },
+  {
+    "id": 47,
+    "categoria": "Eletrônicos",
+    "preco": 499.00,
+    "descricao": "Câmera digital compacta 20MP"
+  },
+  {
+    "id": 48,
+    "categoria": "Informática",
+    "preco": 799.00,
+    "descricao": "SSD 1TB velocidade de leitura 550MB/s"
+  },
+  {
+    "id": 49,
+    "categoria": "Eletrodomésticos",
+    "preco": 249.90,
+    "descricao": "Liquidificador potente 1000W"
+  },
+  {
+    "id": 50,
+    "categoria": "Móveis",
+    "preco": 199.90,
+    "descricao": "Cadeira de escritório ergonômica"
+  },
+  {
+    "id": 51,
+    "categoria": "Cama, mesa e banho",
+    "preco": 39.90,
+    "descricao": "Jogo de lençol solteiro 3 peças"
+  },
+  {
+    "id": 52,
+    "categoria": "Esportes",
+    "preco": 79.90,
+    "descricao": "Luva de goleiro profissional"
+  },
+  {
+    "id": 53,
+    "categoria": "Beleza",
+    "preco": 29.90,
+    "descricao": "Esmalte profissional 8ml"
+  },
+  {
+    "id": 54,
+    "categoria": "Alimentos",
+    "preco": 9.90,
+    "descricao": "Mel puro 500g"
+  },
+  {
+    "id": 55,
+    "categoria": "Bebidas",
+    "preco": 7.90,
+    "descricao": "Refrigerante orgânico 350ml"
+  },
+  {
+    "id": 56,
+    "categoria": "Eletrônicos",
+    "preco": 129.00,
+    "descricao": "Carregador portátil 10000mAh"
+  },
+  {
+    "id": 57,
+    "categoria": "Informática",
+    "preco": 349.00,
+    "descricao": "Roteador Wi-Fi dual band"
+  },
+  {
+    "id": 58,
+    "categoria": "Eletrodomésticos",
+    "preco": 599.00,
+    "descricao": "Aspirador de pó vertical sem fio"
+  },
+  {
+    "id": 59,
+    "categoria": "Móveis",
+    "preco": 299.90,
+    "descricao": "Rack para TV até 55 polegadas"
+  },
+  {
+    "id": 60,
+    "categoria": "Cama, mesa e banho",
+    "preco": 19.90,
+    "descricao": "Tapete de banho antiderrapante"
+  },
+  {
+    "id": 61,
+    "categoria": "Esportes",
+    "preco": 129.90,
+    "descricao": "Kit de musculação com barra e halteres"
+  },
+  {
+    "id": 62,
+    "categoria": "Beleza",
+    "preco": 79.90,
+    "descricao": "Kit tratamento capilar 3 produtos"
+  },
+  {
+    "id": 63,
+    "categoria": "Alimentos",
+    "preco": 14.90,
+    "descricao": "Granola premium 400g"
+  },
+  {
+    "id": 64,
+    "categoria": "Bebidas",
+    "preco": 39.90,
+    "descricao": "Vinho branco seco garrafa 750ml"
+  },
+  {
+    "id": 65,
+    "categoria": "Eletrônicos",
+    "preco": 799.00,
+    "descricao": "Drone com câmera HD e controle remoto"
+  },
+  {
+    "id": 66,
+    "categoria": "Informática",
+    "preco": 129.00,
+    "descricao": "Mousepad gamer grande"
+  },
+  {
+    "id": 67,
+    "categoria": "Eletrodomésticos",
+    "preco": 349.00,
+    "descricao": "Ferro de passar roupa a vapor"
+  },
+  {
+    "id": 68,
+    "categoria": "Móveis",
+    "preco": 499.90,
+    "descricao": "Escrivaninha com gavetas"
+  },
+  {
+    "id": 69,
+    "categoria": "Cama, mesa e banho",
+    "preco": 59.90,
+    "descricao": "Colcha queen size algodão"
+  },
+  {
+    "id": 70,
+    "categoria": "Esportes",
+    "preco": 49.90,
+    "descricao": "Corda de pular profissional"
+  },
+  {
+    "id": 71,
+    "categoria": "Beleza",
+    "preco": 19.90,
+    "descricao": "Protetor solar FPS 50 120ml"
+  },
+  {
+    "id": 72,
+    "categoria": "Alimentos",
+    "preco": 6.90,
+    "descricao": "Biscoito integral 200g"
+  },
+  {
+    "id": 73,
+    "categoria": "Bebidas",
+    "preco": 12.90,
+    "descricao": "Suco natural integral 1L"
+  },
+  {
+    "id": 74,
+    "categoria": "Eletrônicos",
+    "preco": 299.00,
+    "descricao": "Tablet infantil com conteúdo educativo"
+  },
+  {
+    "id": 75,
+    "categoria": "Informática",
+    "preco": 199.00,
+    "descricao": "Headset gamer com microfone"
+  },
+  {
+    "id": 76,
+    "categoria": "Eletrodomésticos",
+    "preco": 199.90,
+    "descricao": "Sanduicheira elétrica antiaderente"
+  },
+  {
+    "id": 77,
+    "categoria": "Móveis",
+    "preco": 149.90,
+    "descricao": "Banco de madeira para jardim"
+  },
+  {
+    "id": 78,
+    "categoria": "Cama, mesa e banho",
+    "preco": 69.90,
+    "descricao": "Jogo de fronhas 2 peças"
+  },
+  {
+    "id": 79,
+    "categoria": "Esportes",
+    "preco": 89.90,
+    "descricao": "Bola de basquete oficial tamanho 7"
+  },
+  {
+    "id": 80,
+    "categoria": "Beleza",
+    "preco": 59.90,
+    "descricao": "Kit de escovas de cabelo profissional"
+  },
+  {
+    "id": 81,
+    "categoria": "Alimentos",
+    "preco": 11.90,
+    "descricao": "Castanha do pará 200g"
+  },
+  {
+    "id": 82,
+    "categoria": "Bebidas",
+    "preco": 8.90,
+    "descricao": "Água tônica 1L"
+  },
+  {
+    "id": 83,
+    "categoria": "Eletrônicos",
+    "preco": 149.00,
+    "descricao": "Caixa de som portátil com luzes LED"
+  },
+  {
+    "id": 84,
+    "categoria": "Informática",
+    "preco": 899.00,
+    "descricao": "Impressora multifuncional jato de tinta"
+  },
+  {
+    "id": 85,
+    "categoria": "Eletrodomésticos",
+    "preco": 129.90,
+    "descricao": "Batedeira planetária 400W"
+  },
+  {
+    "id": 86,
+    "categoria": "Móveis",
+    "preco": 399.90,
+    "descricao": "Cômoda 4 gavetas"
+  },
+  {
+    "id": 87,
+    "categoria": "Cama, mesa e banho",
+    "preco": 24.90,
+    "descricao": "Jogo de copos 6 unidades"
+  },
+  {
+    "id": 88,
+    "categoria": "Esportes",
+    "preco": 139.90,
+    "descricao": "Esteira elétrica dobrável"
+  },
+  {
+    "id": 89,
+    "categoria": "Beleza",
+    "preco": 39.90,
+    "descricao": "Perfume importado 50ml"
+  },
+  {
+    "id": 90,
+    "categoria": "Alimentos",
+    "preco": 16.90,
+    "descricao": "Azeitonas importadas 200g"
+  },
+  {
+    "id": 91,
+    "categoria": "Bebidas",
+    "preco": 14.90,
+    "descricao": "Energético lata 250ml"
+  },
+  {
+    "id": 92,
+    "categoria": "Eletrônicos",
+    "preco": 599.00,
+    "descricao": "Projetor Full HD 1080p"
+  },
+  {
+    "id": 93,
+    "categoria": "Informática",
+    "preco": 249.00,
+    "descricao": "Webcam Full HD com microfone"
+  },
+  {
+    "id": 94,
+    "categoria": "Eletrodomésticos",
+    "preco": 699.00,
+    "descricao": "Purificador de água"
+  },
+  {
+    "id": 95,
+    "categoria": "Móveis",
+    "preco": 599.90,
+    "descricao": "Armário de cozinha 6 portas"
+  },
+  {
+    "id": 96,
+    "categoria": "Cama, mesa e banho",
+    "preco": 34.90,
+    "descricao": "Jogo de pratos 12 peças"
+  },
+  {
+    "id": 97,
+    "categoria": "Esportes",
+    "preco": 69.90,
+    "descricao": "Bola de vôlei oficial"
+  },
+  {
+    "id": 98,
+    "categoria": "Beleza",
+    "preco": 89.90,
+    "descricao": "Kit de manicure profissional"
+  },
+  {
+    "id": 99,
+    "categoria": "Alimentos",
+    "preco": 7.90,
+    "descricao": "Pipoca para micro-ondas 100g"
+  },
+  {
+    "id": 100,
+    "categoria": "Bebidas",
+    "preco": 17.90,
+    "descricao": "Cachaça artesanal envelhecida 700ml"
+  }
+]
