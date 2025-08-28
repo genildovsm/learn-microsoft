@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box; 
+}
+
+body {
+    background-color: white;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
