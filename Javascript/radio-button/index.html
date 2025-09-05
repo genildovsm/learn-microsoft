@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,">
+    <title>Radio button</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <form>
+        Tipo: &nbsp;
+        <div class="d-inline-flex my-1">
+            <label class="label-radio">
+                <input type="radio" name="digital" value="true"> Digital
+            </label>
+            <label class="label-radio">
+                <input type="radio" name="digital" value="false" checked> Analógico
+            </label>
+        </div>
+        <p>
+            Nome: <input size="40" type="text" name="nome" id="nome">
+        </p>
+        <button type="submit">Submit</button>
+    </form>
+
+    <p class="my-1">
+        <label for="btn-interagir">
+            <input type="checkbox" id="btn-interagir"> Bloqueado 
+        </label>        
+    </p>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>
