@@ -1,0 +1,53 @@
+﻿@page
+@model WebAppRazorPages.Pages.ClientesCRUD.ListarModel
+@{
+    ViewData["title"] = "Listagem de clientes";
+}
+
+<header class="container p-3">
+    <div class="row align-items-center">
+        <div class="col-sm-6">
+            <h2>@ViewData["title"]</h2>
+        </div>
+        <div class="col-sm-6 text-right">
+            <a asp-area="" asp-page="Incluir" class="btn btn-info">Novo cliente</a> 
+        </div>
+    </div>
+</header>
+<main class="container mt-4">
+    @if (Model.Clientes.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Clientes.First().Nome)</th>
+                    <th>@Html.DisplayNameFor(m => m.Clientes.First().CPF)</th>
+                    <th>@Html.DisplayNameFor(m => m.Clientes.First().DataNascimento)</th>
+                    <th>@Html.DisplayNameFor(m => m.Clientes.First().Email)</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var cliente in Model.Clientes)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(m => cliente.Nome)</td>
+                    <td>@Html.DisplayFor(m => cliente.CPF)</td>
+                    <td>@Html.DisplayFor(m => cliente.DataNascimento)</td>
+                    <td>@Html.DisplayFor(m => cliente.Email)</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm" asp-page="./Alterar" asp-route-id="@cliente.IdCliente">Alterar</a>
+                        <form class="d-inline-block" asp-page-handler="delete" asp-route-id="@cliente.IdCliente" method="post">
+                            <buttom class="btn btn-danger btn-sm" onclick="confirmarExclusao(this);" type="button">Excluir</buttom>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h5 class="text-muted">Não há clientes cadastrados</h5>
+    }
+</main>

@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "Z:\\learnMicrosoft\\WebAppRazorPages\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0A90DE6E-0B89-4760-ABBF-D7499F9660FC}|WebAppRazorPages.csproj|z:\\learnmicrosoft\\webapprazorpages\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0A90DE6E-0B89-4760-ABBF-D7499F9660FC}|WebAppRazorPages.csproj|solutionrelative:pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0A90DE6E-0B89-4760-ABBF-D7499F9660FC}|WebAppRazorPages.csproj|z:\\learnmicrosoft\\webapprazorpages\\pages\\clientescrud\\listar.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0A90DE6E-0B89-4760-ABBF-D7499F9660FC}|WebAppRazorPages.csproj|solutionrelative:pages\\clientescrud\\listar.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0A90DE6E-0B89-4760-ABBF-D7499F9660FC}|WebAppRazorPages.csproj|z:\\learnmicrosoft\\webapprazorpages\\pages\\clientescrud\\listar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0A90DE6E-0B89-4760-ABBF-D7499F9660FC}|WebAppRazorPages.csproj|solutionrelative:pages\\clientescrud\\listar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +23,29 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml.cs",
-              "DocumentMoniker": "Z:\\learnMicrosoft\\WebAppRazorPages\\Pages\\Index.cshtml.cs",
-              "RelativeDocumentMoniker": "Pages\\Index.cshtml.cs",
-              "ToolTip": "Z:\\learnMicrosoft\\WebAppRazorPages\\Pages\\Index.cshtml.cs",
-              "RelativeToolTip": "Pages\\Index.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Title": "Listar.cshtml.cs",
+              "DocumentMoniker": "Z:\\learnMicrosoft\\WebAppRazorPages\\Pages\\ClientesCRUD\\Listar.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\ClientesCRUD\\Listar.cshtml.cs",
+              "ToolTip": "Z:\\learnMicrosoft\\WebAppRazorPages\\Pages\\ClientesCRUD\\Listar.cshtml.cs",
+              "RelativeToolTip": "Pages\\ClientesCRUD\\Listar.cshtml.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAwCkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-03T02:52:33.392Z",
+              "WhenOpened": "2025-09-10T03:43:16.745Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Listar.cshtml",
+              "DocumentMoniker": "Z:\\learnMicrosoft\\WebAppRazorPages\\Pages\\ClientesCRUD\\Listar.cshtml",
+              "RelativeDocumentMoniker": "Pages\\ClientesCRUD\\Listar.cshtml",
+              "ToolTip": "Z:\\learnMicrosoft\\WebAppRazorPages\\Pages\\ClientesCRUD\\Listar.cshtml",
+              "RelativeToolTip": "Pages\\ClientesCRUD\\Listar.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAC4AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-10T02:20:35.709Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]
