@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function(){
             },
             {
                 start: '2025-08-10 12:30:00', 
-                end: '2025-08-10 15:30:00', 
+                end: '2025-08-12 15:30:00', 
                 title: 'Visita técnica aos laboratórios'
             },
             {
